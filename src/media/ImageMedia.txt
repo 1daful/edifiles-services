@@ -1,0 +1,10 @@
+import { IMedia } from "./IMedia";
+import { MediaProps } from "./MediaProps";
+export class ImageMedia implements IMedia{
+    props: MediaProps;
+
+    constructor(data: Record<string, any>){
+        this.props = new MediaProps;
+         this.props.mapProps(data, this);
+    }
+}
