@@ -2,7 +2,8 @@
   "name": "@edifiles/services",
   "description": "These files contains common website service such as authenticatication, data access e.t.c.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
