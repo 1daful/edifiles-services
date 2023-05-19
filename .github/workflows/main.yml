@@ -23,6 +23,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          echo ${{ secrets.GH_TOKEN }} > token.txt
           git config user.name "1daful"
           git config user.email "wonderayanfe0@gmail.com"
           git add .
