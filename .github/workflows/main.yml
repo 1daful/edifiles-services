@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name as needed
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build  # Adjust the build command as needed
+
+      - name: Run tests
+        run: npm test  # Adjust the test command as needed
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "1daful"
+          git config user.email "wonderayanfe0@gmail.com"
+          git add .
+          git commit -m "Auto-commit changes [skip ci]"
+          git push
+
+      - name: Publish npm package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}  # Add your NPM authentication token as a secret in your repository settings
