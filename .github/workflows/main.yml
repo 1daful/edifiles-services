@@ -23,9 +23,9 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          echo ${{ secrets.GH_TOKEN }} > token.txt
           git config user.name "1daful"
           git config user.email "wonderayanfe0@gmail.com"
+          git remote set-url origin "https://1daful:${{ secrets.GH_TOKEN }}@github.com/1daful/edifiles-services.git"
           git add .
           git commit -m "Auto-commit changes [skip ci]"
           git push
