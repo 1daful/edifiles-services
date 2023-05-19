@@ -11,30 +11,24 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Install dependencies
         run: npm install
-
-      - name: Build project
-        run: npm run build  # Adjust the build command as needed
-
-      - name: Run tests
-        run: npm test  # Adjust the test command as needed
 
       - name: Commit and push changes
         run: |
           git config user.name "1daful"
           git config user.email "wonderayanfe0@gmail.com"
+          git remote set-url origin "https://1daful:${{ secrets.GH_TOKEN }}@github.com/1daful/edifiles-services.git"
           git add .
           git commit -m "Auto-commit changes [skip ci]"
-          git push
-
+          git push origin main
       - name: Publish npm package
         run: npm publish
         env:
