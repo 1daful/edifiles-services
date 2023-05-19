@@ -28,8 +28,7 @@ jobs:
           git remote set-url origin "https://1daful:${{ secrets.GH_TOKEN }}@github.com/1daful/edifiles-services.git"
           git add .
           git commit -m "Auto-commit changes [skip ci]"
-          git push
-
+          git push origin main
       - name: Publish npm package
         run: npm publish
         env:
