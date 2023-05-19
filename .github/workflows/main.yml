@@ -20,7 +20,9 @@ jobs:
       
       - name: Clean project
         run: npm ci
-        
+      - name: Remove conflicting file
+        run: rm /home/runner/work/edifiles-services/edifiles-services/node_modules/.bin/node-gyp-build
+
       - name: Install dependencies
         run: npm install
 
