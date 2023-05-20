@@ -1,11 +1,14 @@
-import { Repository } from "./Repository";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Metadata = void 0;
+const Repository_1 = require("./Repository");
 //import { SupabaseRepo } from "./SupabaseRepo";
 //import { FIRepository } from "./FIRepository";
-export class Metadata {
+class Metadata {
     /*constructor() {
         this.repository = new FIRepository(db);
     }*/
-    repository = new Repository("metadata");
+    repository = new Repository_1.Repository("metadata");
     //message!: string;
     async saveGenres(items) {
         let mediaItems = [];
@@ -24,3 +27,5 @@ export class Metadata {
         return await this.repository.readItems();
     }
 }
+exports.Metadata = Metadata;
+//# sourceMappingURL=metadata.js.map

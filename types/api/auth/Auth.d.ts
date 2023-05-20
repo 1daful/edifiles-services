@@ -3,7 +3,7 @@ export interface IAuth {
     signUp(user: any, data: any): Promise<any>;
     login(id: string, user: any): void;
     logout(): void;
-    getUser(): void;
+    getUser(): any;
     isAuthenticated(): Promise<boolean>;
     resetPassword(email: string): Promise<any>;
     updateUser(user: any): Promise<any>;

@@ -1,5 +1,8 @@
-import { Algolia } from './Algolia';
-export class Search {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Search = void 0;
+const Algolia_1 = require("./Algolia");
+class Search {
     //iSearch = new zincSearch()
     /*async index(type: string, items: any) {
         let indexRes = this.iSearch.index(type, items)
@@ -23,7 +26,7 @@ export class Search {
             },
         })
     }*/
-    client = new Algolia;
+    client = new Algolia_1.Algolia;
     index(type, items) {
         this.client.index(type, items);
     }
@@ -31,3 +34,5 @@ export class Search {
         return await this.client.search(type, keyword);
     }
 }
+exports.Search = Search;
+//# sourceMappingURL=Search.js.map

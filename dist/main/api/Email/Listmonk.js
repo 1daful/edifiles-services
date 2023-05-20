@@ -1,12 +1,18 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ListMonk = void 0;
 //import { emailReq } from '../../utility/Types';
-import config from "../../utility/config.json";
-import { Resource } from '../Resource';
-import { Axiosi } from "../Axiosi";
-export class ListMonk {
-    client = new Axiosi();
+const config_json_1 = __importDefault(require("../../utility/config.json"));
+const Resource_1 = require("../Resource");
+const Axiosi_1 = require("../Axiosi");
+class ListMonk {
+    client = new Axiosi_1.Axiosi();
     resources = [];
     transact = (format) => {
-        return new Resource(this, "transactionalEmail", {
+        return new Resource_1.Resource(this, "transactionalEmail", {
             name: "emailReq",
             baseUrl: "/api/tx",
             params: {},
@@ -24,7 +30,7 @@ export class ListMonk {
         "data": true
     };
     campaign = (format) => {
-        new Resource(this, "", {
+        new Resource_1.Resource(this, "", {
             baseUrl: "/api/campaigns",
             name: "",
             params: {},
@@ -75,7 +81,7 @@ export class ListMonk {
         }
     };
     subscriber = (format, data) => {
-        new Resource(this, "contacts", {
+        new Resource_1.Resource(this, "contacts", {
             name: "subscriber",
             baseUrl: "/subscribers",
             params: {
@@ -93,11 +99,11 @@ export class ListMonk {
         }, "subscriber");
     };
     getBaseUrl() {
-        const apiBaseUrl = config.api.ListMonk.baseUrl;
+        const apiBaseUrl = config_json_1.default.api.ListMonk.baseUrl;
         return apiBaseUrl;
     }
     getBaseParams() {
-        const apiBaseParams = config.api.ListMonk.config;
+        const apiBaseParams = config_json_1.default.api.ListMonk.config;
         return apiBaseParams;
     }
     getData(resData) {
@@ -126,3 +132,5 @@ export class ListMonk {
         return resData;
     }
 }
+exports.ListMonk = ListMonk;
+//# sourceMappingURL=Listmonk.js.map

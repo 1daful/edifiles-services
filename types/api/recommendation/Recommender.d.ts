@@ -1,10 +1,10 @@
-import { MediaRes } from '../utility/Types';
+import { MediaRes } from '../../utility/Types';
 import { DateTime } from 'gorsejs/src/interfaces';
-import { Section } from '../utility/Types';
+import { Section } from '../../utility/Types';
 import { Gorse } from "gorsejs/src";
 export declare class Recommender {
     client: Gorse<string>;
-    readMedia(section: Section, type: MediaRes, category: string, id?: string, op?: Record<string, any>): Promise<any>;
+    readMedia(section: Section, type: MediaRes, category: string, id?: string, op?: Record<string, any>): Promise<Record<string, any>[] | undefined>;
     indexItems(mediaList: Record<string, any>[], type: MediaRes): Promise<void>;
     private load;
     getMedia(type?: any, params?: {

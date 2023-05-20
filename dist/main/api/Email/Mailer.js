@@ -1,12 +1,18 @@
-import { ListMonk } from './Listmonk';
-import { Zeptomail } from './Zeptomail';
-import { Axiosi } from '../Axiosi';
-import config from "../../utility/config.json";
-export class Mailer {
-    client = new Axiosi();
-    sender = config.email.address;
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Mailer = void 0;
+const Listmonk_1 = require("./Listmonk");
+const Zeptomail_1 = require("./Zeptomail");
+const Axiosi_1 = require("../Axiosi");
+const config_json_1 = __importDefault(require("../../utility/config.json"));
+class Mailer {
+    client = new Axiosi_1.Axiosi();
+    sender = config_json_1.default.email.address;
     host = "smtp.zeptomail.com";
-    messenger = new ListMonk();
+    messenger = new Listmonk_1.ListMonk();
     sendEmail(email) {
         this.client.post(this.messenger.transact(email));
         /*let msg = {
@@ -18,9 +24,11 @@ export class Mailer {
         //this.client.postTo(config.backURL + "/mailer", msg)
     }
     sendTemplateEmail(user, email) {
-        this.client.post(new Zeptomail().getResource("single_template", user, email));
+        this.client.post(new Zeptomail_1.Zeptomail().getResource("single_template", user, email));
     }
     sendTemplateBatch(user, email) {
-        this.client.post(new Zeptomail().getResource("batch_template", user, email));
+        this.client.post(new Zeptomail_1.Zeptomail().getResource("batch_template", user, email));
     }
 }
+exports.Mailer = Mailer;
+//# sourceMappingURL=Mailer.js.map

@@ -1,11 +1,14 @@
-import { Pouchdb } from "./Pouchdb";
-import { SupabaseRepo } from "./SupabaseRepo";
-export class Repository {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Repository = void 0;
+const Pouchdb_1 = require("./Pouchdb");
+const SupabaseRepo_1 = require("./SupabaseRepo");
+class Repository {
     collName;
     constructor(collName) {
         this.collName = collName || '';
         //this.db = new Pouchdb(collName)
-        this.db = new SupabaseRepo();
+        this.db = new SupabaseRepo_1.SupabaseRepo();
     }
     search(field, query, collName) {
         return this.db.search(field, query);
@@ -17,14 +20,14 @@ export class Repository {
     changeDB(db, collName) {
         switch (db) {
             case 'pouchdb':
-                return new Pouchdb(collName);
+                return new Pouchdb_1.Pouchdb(collName);
                 break;
             case 'supabase':
-                return new SupabaseRepo();
+                return new SupabaseRepo_1.SupabaseRepo();
             default:
                 break;
         }
-        return new SupabaseRepo();
+        return new SupabaseRepo_1.SupabaseRepo();
     }
     async addItem(collName, param) {
         return await this.db.addItem(collName, param);
@@ -45,3 +48,5 @@ export class Repository {
         this.db.deleteItem(docId, this.collName);
     }
 }
+exports.Repository = Repository;
+//# sourceMappingURL=Repository.js.map

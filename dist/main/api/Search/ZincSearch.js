@@ -1,15 +1,21 @@
-import config from '../../../public/config.json';
-import { Resource } from '../Resource';
-import { Axiosi } from '../Axiosi';
-export class zincSearch {
-    client = new Axiosi();
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.zincSearch = void 0;
+const config_json_1 = __importDefault(require("../../../public/config.json"));
+const Resource_1 = require("../Resource");
+const Axiosi_1 = require("../Axiosi");
+class zincSearch {
+    client = new Axiosi_1.Axiosi();
     resources = [];
-    url = config.api.ZincSearch.baseUrl;
+    url = config_json_1.default.api.ZincSearch.baseUrl;
     index = (type, items) => {
-        return new Resource(this, "index", {
+        return new Resource_1.Resource(this, "index", {
             name: "indexRes",
             baseUrl: this.url + "/_bulkv2",
-            params: config.api.ZincSearch.config,
+            params: config_json_1.default.api.ZincSearch.config,
             data: {
                 index: type,
                 records: items
@@ -17,10 +23,10 @@ export class zincSearch {
         }, "indexResp");
     };
     search = (type, searchType, term, maxResult) => {
-        return new Resource(this, "searchRes", {
+        return new Resource_1.Resource(this, "searchRes", {
             name: "indexRes",
             baseUrl: this.url + "/" + type + "/_search",
-            params: config.api.ZincSearch.config,
+            params: config_json_1.default.api.ZincSearch.config,
             data: {
                 search_type: searchType,
                 query: {
@@ -37,7 +43,7 @@ export class zincSearch {
     getBaseUrl() {
         try {
             //const config = await this.client.load('../config.json')
-            const apiBaseUrl = config?.api.ZincSearch.baseUrl;
+            const apiBaseUrl = config_json_1.default?.api.ZincSearch.baseUrl;
             return apiBaseUrl;
         }
         catch (err) {
@@ -47,7 +53,7 @@ export class zincSearch {
     getBaseParams() {
         try {
             //const config = await this.client.load('../config.json')
-            const apiBaseParams = config?.api.ZincSearch.config;
+            const apiBaseParams = config_json_1.default?.api.ZincSearch.config;
             return apiBaseParams;
         }
         catch (err) {
@@ -61,3 +67,5 @@ export class zincSearch {
     }
     SearchResult;
 }
+exports.zincSearch = zincSearch;
+//# sourceMappingURL=ZincSearch.js.map

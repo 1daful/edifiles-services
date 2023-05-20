@@ -1,11 +1,17 @@
-import { NetworkLocal } from '../api/network.js';
-import PouchDB from 'pouchdb';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Pouchdb = void 0;
+const network_js_1 = require("../api/network.js");
+const pouchdb_1 = __importDefault(require("pouchdb"));
 //import config from 'pouchdb';
 //import { Utility } from "../Utility";
 //import { FIRepository } from "./FIRepository";
-export class Pouchdb {
+class Pouchdb {
     constructor(collName) {
-        this.db = new PouchDB(collName /*{skip_setup: true}*/);
+        this.db = new pouchdb_1.default(collName /*{skip_setup: true}*/);
         //this.createIndex(['id'])
         /*const remoteDB = new PouchDB(config.api.PouchDB.url)
         this.db.sync(remoteDB, {
@@ -75,7 +81,7 @@ export class Pouchdb {
             }
             await this.db.bulkDocs(newItems);
             //await this.db.bulkDocs(items)
-            NetworkLocal.test("Adding items to repository");
+            network_js_1.NetworkLocal.test("Adding items to repository");
         }
         catch (err) {
             console.log(err);
@@ -204,3 +210,5 @@ export class Pouchdb {
         }
     }
 }
+exports.Pouchdb = Pouchdb;
+//# sourceMappingURL=Pouchdb.js.map

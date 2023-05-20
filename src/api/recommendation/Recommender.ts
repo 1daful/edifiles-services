@@ -1,13 +1,13 @@
-import { MediaType } from '../utility/Types';
-import { MediaRes } from '../utility/Types';
-import { Search } from './Search/Search';
+import { MediaType } from '../../utility/Types';
+import { MediaRes } from '../../utility/Types';
+import { Search } from './../Search/Search';
 //import { Axiosi } from './Axiosi';
 import { Feedback, DateTime } from 'gorsejs/src/interfaces';
-import { NetworkLocal } from './network';
-import { Section } from '../utility/Types';
-import { Media } from "../media/Media";
+import { NetworkLocal } from '../network';
+import { Section } from '../../utility/Types';
+import { Media } from "../../media/Media";
 import { Gorse } from "gorsejs/src";
-import config from "../utility/config.json"
+import config from "../../utility/config.json"
 /*import { Repository } from '../model/Repository';
 import { IRepository } from '../model/IRepository';*/
 

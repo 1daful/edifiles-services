@@ -1,6 +1,12 @@
-import config from "../utility/config.json";
-import { createClient } from '@supabase/supabase-js';
-export class SupabaseRepo {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SupabaseRepo = void 0;
+const config_json_1 = __importDefault(require("../utility/config.json"));
+const supabase_js_1 = require("@supabase/supabase-js");
+class SupabaseRepo {
     async search(field, query, collName) {
         let i = 0;
         const { data, error } = await this.supabase
@@ -19,7 +25,7 @@ export class SupabaseRepo {
             detectSessionInUrl: true
         }
     };
-    supabase = createClient(config.api.Supabase.url, config.api.Supabase.key, this.options);
+    supabase = (0, supabase_js_1.createClient)(config_json_1.default.api.Supabase.url, config_json_1.default.api.Supabase.key, this.options);
     async addItem(collName, items) {
         return await this.supabase
             .from(collName)
@@ -108,3 +114,5 @@ export class SupabaseRepo {
         });
     }
 }
+exports.SupabaseRepo = SupabaseRepo;
+//# sourceMappingURL=SupabaseRepo.js.map

@@ -1,4 +1,7 @@
-export const Media = [{
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Media = void 0;
+exports.Media = [{
         name: 'quotes',
         icon: "format_quote",
         items: []
@@ -20,3 +23,4 @@ export const Media = [{
         icon: '',
         items: []
     }];
+//# sourceMappingURL=Media.js.map

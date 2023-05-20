@@ -1,7 +1,13 @@
-import { createClient } from '@supabase/supabase-js';
-import config from '../../public/config.json';
-export class SupabaseStore {
-    supabase = createClient(config.api.Supabase.url, config.api.Supabase.key);
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SupabaseStore = void 0;
+const supabase_js_1 = require("@supabase/supabase-js");
+const config_json_1 = __importDefault(require("../../public/config.json"));
+class SupabaseStore {
+    supabase = (0, supabase_js_1.createClient)(config_json_1.default.api.Supabase.url, config_json_1.default.api.Supabase.key);
     async create(path) {
         const { data, error } = await this.supabase.storage.createBucket(path);
         return { data, error };
@@ -29,3 +35,5 @@ export class SupabaseStore {
         return file;
     }
 }
+exports.SupabaseStore = SupabaseStore;
+//# sourceMappingURL=SupabaseStore.js.map

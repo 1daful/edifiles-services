@@ -1,9 +1,12 @@
-import { MeiliSearch } from 'meilisearch';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Meilisearch = void 0;
+const meilisearch_1 = require("meilisearch");
 //import movies from '../small_movies.json'
-export class Meilisearch {
+class Meilisearch {
     client;
     constructor(host) {
-        this.client = new MeiliSearch({ host: host });
+        this.client = new meilisearch_1.MeiliSearch({ host: host });
         /*if(DateTime.now().setZone('America/New_York') === DateTime.now().setZone('America/New_York').startOf('day')){
           this.client.index(collName).addDocuments(items)
           .then((res) => console.log(res))
@@ -20,3 +23,5 @@ export class Meilisearch {
             .then((res) => console.log("meilisearch", res));
     }
 }
+exports.Meilisearch = Meilisearch;
+//# sourceMappingURL=meilisearch.js.map

@@ -1,19 +1,22 @@
-import { Repository } from '../model/Repository';
-import { QuoteMedia } from './QuoteMedia';
-import { NetworkLocal } from './../api/network';
-import { MediaApi } from "../api/MediaApi.js";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Media = void 0;
+const Repository_1 = require("../model/Repository");
+const QuoteMedia_1 = require("./QuoteMedia");
+const network_1 = require("./../api/network");
+const MediaApi_js_1 = require("../api/MediaApi.js");
 //import { IRepository } from "../model/IRepository.js";
 //import { SupabaseRepo } from "../model/SupabaseRepo";
-import { EdiStorage } from "src/api/storage.js";
+const storage_js_1 = require("src/api/storage.js");
 //import { Pexels } from "src/api/pic/Pexels.js";
 //import { IMediaApi } from "src/api/IMediaApi.js";
-import { ApiFormat } from "src/apiReqFormat/ApiFormat.js";
-import { Axiosi } from "../api/Axiosi";
-import { Unsplash } from "../api/pic/ImageGen";
-import { BookMedia } from './BookMedia';
-import { VideoMedia } from './VideoMedia';
-import { MusicMedia } from './MusicMedia';
-import { Metadata } from '../model/metadata';
+const ApiFormat_js_1 = require("src/apiReqFormat/ApiFormat.js");
+const Axiosi_1 = require("../api/Axiosi");
+const ImageGen_1 = require("../api/pic/ImageGen");
+const BookMedia_1 = require("./BookMedia");
+const VideoMedia_1 = require("./VideoMedia");
+const MusicMedia_1 = require("./MusicMedia");
+const metadata_1 = require("../model/metadata");
 //import { Typesense } from "src/typesense.js";
 //import { NetworkLocal } from "@/api/network.js";
 /**
@@ -21,17 +24,17 @@ import { Metadata } from '../model/metadata';
  * @function load
  * @function createApi
  */
-export class Media {
+class Media {
     constructor(type) {
-        this.repository = new Repository(type);
+        this.repository = new Repository_1.Repository(type);
     }
     repository;
-    metadata = new Metadata();
-    store = new EdiStorage();
-    imageGen = new Unsplash({ keyword: "christian and gospel", length: "10" });
+    metadata = new metadata_1.Metadata();
+    store = new storage_js_1.EdiStorage();
+    imageGen = new ImageGen_1.Unsplash({ keyword: "christian and gospel", length: "10" });
     //search = new Typesense()
     //genre: string = '';
-    client = new Axiosi();
+    client = new Axiosi_1.Axiosi();
     /**
      * Used to delegate a media class method to get mediaItems from its registered media APIs, and the save them in the repository for peristence.
      * @param type
@@ -44,24 +47,24 @@ export class Media {
         if (type) {
             switch (type) {
                 case "quotes":
-                    media = new QuoteMedia(params);
+                    media = new QuoteMedia_1.QuoteMedia(params);
                     return await this.load(media, type);
                 case "books":
-                    media = new BookMedia(params);
+                    media = new BookMedia_1.BookMedia(params);
                     return await this.load(media, type);
                 case "videos":
-                    media = new VideoMedia(params);
+                    media = new VideoMedia_1.VideoMedia(params);
                     return await this.load(media, type);
                 case "music":
-                    media = new MusicMedia(params);
+                    media = new MusicMedia_1.MusicMedia(params);
                     return await this.load(media, type);
                 default:
                     break;
             }
         }
         else {
-            await this.load(new QuoteMedia(params), "quotes");
-            await this.load(new BookMedia(params), "books");
+            await this.load(new QuoteMedia_1.QuoteMedia(params), "quotes");
+            await this.load(new BookMedia_1.BookMedia(params), "books");
             /*let mediaList = []
             mediaList.push(this.load(new QuoteMedia(params), "quotes"))
             mediaList.push(this.load(new BookMedia(params), "books"))
@@ -79,7 +82,7 @@ export class Media {
         //const result: Record<string, any> = {}
         try {
             for (const api of media.apis) {
-                let mediaApi = new MediaApi(api);
+                let mediaApi = new MediaApi_js_1.MediaApi(api);
                 //mediaItems.push(mediaApi.getItems(type, params));
                 //const name = mediaApi.api.constructor.name
                 //NetworkLocal.test(`${name} good!`)
@@ -127,7 +130,7 @@ export class Media {
     async addItems(items, collName) {
         const result = {};
         if (collName) {
-            const repository = new Repository(collName);
+            const repository = new Repository_1.Repository(collName);
             await repository.addItems(items);
             return result;
         }
@@ -144,9 +147,9 @@ export class Media {
     async readItems(collName, params, op, limit) {
         let results;
         if (collName) {
-            const repository = new Repository(collName);
+            const repository = new Repository_1.Repository(collName);
             results = await this.repository.readItems(collName, params, op, limit);
-            NetworkLocal.test("result: ", results);
+            network_1.NetworkLocal.test("result: ", results);
             return results;
         }
         try {
@@ -155,7 +158,7 @@ export class Media {
                 const res = await this.repository.readItem(result._id)
                 result.push(res)
             }*/
-            NetworkLocal.test("result: ", results);
+            network_1.NetworkLocal.test("result: ", results);
             return results;
         }
         catch (err) {
@@ -164,7 +167,7 @@ export class Media {
         }
     }
     async getImage() {
-        const format = new ApiFormat({
+        const format = new ApiFormat_js_1.ApiFormat({
         //item.description
         //keyword: query
         });
@@ -177,8 +180,10 @@ export class Media {
         //this.store.upload()
     }
     async getThumbnail(name, collName) {
-        const repository = new Repository(collName);
+        const repository = new Repository_1.Repository(collName);
         let data = await repository.search("name", name);
         return data.thumbnail;
     }
 }
+exports.Media = Media;
+//# sourceMappingURL=Media.js.map

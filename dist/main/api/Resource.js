@@ -1,17 +1,23 @@
-import { Response } from "./Response";
-import site from "../utility/config.json";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Resource = void 0;
+const Response_1 = require("./Response");
+const config_json_1 = __importDefault(require("../utility/config.json"));
 //import { Utility } from "../Utility";
 /**
  *
  * This class reads a media resource api configuration and sets up request format from it.
  * This class prepares the request parameters, and the appropriate response format.
  */
-export class Resource {
+class Resource {
     constructor(api, type, request, respName) {
         this.api = api;
         this.type = type;
         this.request = request;
-        this.response = new Response(respName);
+        this.response = new Response_1.Response(respName);
         this.api.resources.push(this);
     }
     /*init<T extends Record<string, any>, U, W>(url: string, query: T, params: U, method: MethodType, data?: W) {
@@ -32,7 +38,7 @@ export class Resource {
     response;
     //data!: Record<string, any>;
     api;
-    URL = site.backURL;
+    URL = config_json_1.default.backURL;
     //setResponse!: Function
     //util = new Utility()
     /**
@@ -195,3 +201,5 @@ export class Resource {
         return respData;
     }
 }
+exports.Resource = Resource;
+//# sourceMappingURL=Resource.js.map

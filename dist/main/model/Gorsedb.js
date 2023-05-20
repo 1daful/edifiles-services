@@ -1,4 +1,7 @@
-export class Gorsedb {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Gorsedb = void 0;
+class Gorsedb {
     addItem(item) {
         throw new Error("Method not implemented.");
     }
@@ -24,3 +27,5 @@ export class Gorsedb {
         throw new Error("Method not implemented.");
     }
 }
+exports.Gorsedb = Gorsedb;
+//# sourceMappingURL=Gorsedb.js.map

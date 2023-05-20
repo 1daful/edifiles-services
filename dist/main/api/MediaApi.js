@@ -1,10 +1,13 @@
-import { NetworkLocal } from './network';
-import { Axiosi } from "./Axiosi";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MediaApi = void 0;
+const network_1 = require("./network");
+const Axiosi_1 = require("./Axiosi");
 //import { ApiFormat } from "../apiReqFormat/ApiFormat";
 /**
  * This class takes all the individual media apis and use them for the application.
  */
-export class MediaApi {
+class MediaApi {
     api;
     //client: ApiClient;
     constructor(api) {
@@ -63,14 +66,14 @@ export class MediaApi {
                 resource = iterator;
             }
         }
-        NetworkLocal.test("resource type: ", resource.type);
+        network_1.NetworkLocal.test("resource type: ", resource.type);
         return resource;
     }
     async getItems(type) {
         //this.api.apiFormat = new ApiFormat(params)
         const resource = this.getResource(type);
         //this.setBaseParam(resource);
-        const client = new Axiosi();
+        const client = new Axiosi_1.Axiosi();
         const items = await client.get(resource);
         return items;
     }
@@ -78,8 +81,10 @@ export class MediaApi {
         //this.api.apiFormat = new ApiFormat(params)
         const resource = this.getResource(type);
         //this.setBaseParam(resource);
-        const client = new Axiosi();
+        const client = new Axiosi_1.Axiosi();
         const response = await client.post(resource);
         return response;
     }
 }
+exports.MediaApi = MediaApi;
+//# sourceMappingURL=MediaApi.js.map

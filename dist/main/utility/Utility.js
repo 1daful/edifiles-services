@@ -1,4 +1,7 @@
-export class Utility {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Utility = void 0;
+class Utility {
     handler = {
         get: function (obj, prop) {
             return prop in obj ? obj[prop] : 'defValue';
@@ -45,3 +48,5 @@ export class Utility {
         //let params = token.searchParams
     }
 }
+exports.Utility = Utility;
+//# sourceMappingURL=Utility.js.map

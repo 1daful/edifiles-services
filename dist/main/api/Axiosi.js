@@ -1,7 +1,13 @@
-import axios from 'axios';
-import { NetworkLocal } from "./network";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Axiosi = void 0;
+const axios_1 = __importDefault(require("axios"));
+const network_1 = require("./network");
 //import { networkInterfaces } from "os";
-export class Axiosi {
+class Axiosi {
     /*constructor (resource?: Resource) {
         if (resource) {
             this.resource = resource;
@@ -23,7 +29,7 @@ export class Axiosi {
         //NetworkLocal.test("Calling with Axios config: ", this.config.params)
         //NetworkLocal.test("Config headers: ", this.config.headers)
         if (baseUrl) {
-            const response = await axios.get(baseUrl, this.config);
+            const response = await axios_1.default.get(baseUrl, this.config);
             /*.catch((error) => {
                 if (error.request) {
 
@@ -57,8 +63,8 @@ export class Axiosi {
             this.config.params = (await resource.getBaseParam()).baseParams;
             this.config.auth = auth;
             if (baseUrl) {
-                const response = await axios.post(baseUrl, resource.request.data, this.config);
-                NetworkLocal.test(this.message);
+                const response = await axios_1.default.post(baseUrl, resource.request.data, this.config);
+                network_1.NetworkLocal.test(this.message);
                 return resource.getResponse(response.data);
             }
             //return this.resource.response.dataList;
@@ -71,7 +77,7 @@ export class Axiosi {
     }
     async load(addr, query) {
         try {
-            const resp = await axios.get(addr, query);
+            const resp = await axios_1.default.get(addr, query);
             //NetworkLocal.test(filthis.message)
             return resp;
         }
@@ -81,7 +87,7 @@ export class Axiosi {
     }
     async postTo(addr, data, query) {
         try {
-            const resp = await axios.post(addr, data, query);
+            const resp = await axios_1.default.post(addr, data, query);
             //NetworkLocal.test(filthis.message)
             return resp;
         }
@@ -90,3 +96,5 @@ export class Axiosi {
         }
     }
 }
+exports.Axiosi = Axiosi;
+//# sourceMappingURL=Axiosi.js.map

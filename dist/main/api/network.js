@@ -1,10 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NetworkLocal = void 0;
 /**
  * Class utility to check for local developer or network developer IDE.
  */
-import { isLoopbackAddr } from "is-loopback-addr";
+const is_loopback_addr_1 = require("is-loopback-addr");
 class NetworkLocal {
     //os = require('os')
-    static isLoopback = isLoopbackAddr(window.location.origin);
+    static isLoopback = (0, is_loopback_addr_1.isLoopbackAddr)(window.location.origin);
     static onLine = window.navigator.onLine;
     static test(message, msg, name) {
         if (name) {
@@ -38,10 +41,11 @@ class NetworkLocal {
         }
     };
 }
-export { NetworkLocal };
+exports.NetworkLocal = NetworkLocal;
 /*if(!isArray(response.data)) {
     res = this.resource.getResponse([response.data])
 }
 else {
     res = this.resource.getResponse(response.data)
 }*/ 
+//# sourceMappingURL=network.js.map

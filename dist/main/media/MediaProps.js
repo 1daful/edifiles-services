@@ -1,4 +1,7 @@
-export class MediaProps {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MediaProps = void 0;
+class MediaProps {
     id = '';
     title = '';
     timestamp = 0;
@@ -30,3 +33,5 @@ export class MediaProps {
         //end of class MediaProps
     }
 }
+exports.MediaProps = MediaProps;
+//# sourceMappingURL=MediaProps.js.map

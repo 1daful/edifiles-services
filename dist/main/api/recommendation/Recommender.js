@@ -1,20 +1,26 @@
-import { Search } from './Search/Search';
-import { NetworkLocal } from './network';
-import { Media } from "../media/Media";
-import { Gorse } from "gorsejs/src";
-import config from "../utility/config.json";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Recommender = void 0;
+const Search_1 = require("./../Search/Search");
+const network_1 = require("../network");
+const Media_1 = require("../../media/Media");
+const src_1 = require("gorsejs/src");
+const config_json_1 = __importDefault(require("../../utility/config.json"));
 /*import { Repository } from '../model/Repository';
 import { IRepository } from '../model/IRepository';*/
-export class Recommender {
+class Recommender {
     /*bookMedia: IMedia = new BookMedia("books");
     quoteMedia: IMedia = new QuoteMedia("quotes");
     musicMedia: IMedia = new MusicMedia("music");
     videoMedia: IMedia = new VideoMedia("videos");*/
     //media: Media = new Media("collections")
     //client: IRepository = new Repository("Books");
-    client = new Gorse({
-        endpoint: config.api.Gorse.id,
-        secret: config.api.Gorse.key,
+    client = new src_1.Gorse({
+        endpoint: config_json_1.default.api.Gorse.id,
+        secret: config_json_1.default.api.Gorse.key,
     });
     /*client = new Axiosi()
     baseUrl = config.api.Regommend.baseUrl*/
@@ -87,12 +93,12 @@ export class Recommender {
         break;*/
         let mediaList = await this.load(type, undefined, op);
         //if(mediaList) this.indexItems(mediaList, type)
-        NetworkLocal.test('mediaListRecomm: ', mediaList, "Recomm");
+        network_1.NetworkLocal.test('mediaListRecomm: ', mediaList, "Recomm");
         return mediaList;
     }
     async indexItems(mediaList, type) {
         //mediaList = mediaItems
-        const search = new Search();
+        const search = new Search_1.Search();
         console.log("mediaList: ", mediaList);
         let mediaIt = mediaList;
         /*if(mediaList){
@@ -108,7 +114,7 @@ export class Recommender {
         //let meiliSearch = new Meilisearch("http://localhost:7700")
         if (mediaIt)
             await search.index(type, mediaIt);
-        NetworkLocal.test('Search indexed: ', mediaIt, "Search indexed");
+        network_1.NetworkLocal.test('Search indexed: ', mediaIt, "Search indexed");
     }
     async load(type, params, op) {
         //for (const item of mediaList) {
@@ -116,15 +122,15 @@ export class Recommender {
         let media;
         switch (String(type)) {
             case 'quotes':
-                media = new Media("quotes");
+                media = new Media_1.Media("quotes");
                 items = await media.readItems("quotes", params, op);
-                NetworkLocal.test("mediaItems: ", items, "media");
+                network_1.NetworkLocal.test("mediaItems: ", items, "media");
                 return items;
             //break;
             case 'books':
-                media = new Media("books");
+                media = new Media_1.Media("books");
                 items = await media.readItems("books", params, op);
-                NetworkLocal.test("mediaItems: ", items, "media");
+                network_1.NetworkLocal.test("mediaItems: ", items, "media");
                 return items;
             //break;
             /*case 'music':
@@ -144,7 +150,7 @@ export class Recommender {
         //new MusicMedia().getMedia()
         //new BookMedia("books").getMedia()
         //new QuoteMedia("quotes").getMedia()
-        const media = new Media("collections");
+        const media = new Media_1.Media("collections");
         await media.fetch(type, params);
     }
     async getRecommended(userId, category) {
@@ -208,3 +214,5 @@ export class Recommender {
         await this.client.insertItemCategory(itemId, category);
     }
 }
+exports.Recommender = Recommender;
+//# sourceMappingURL=Recommender.js.map

@@ -1,5 +1,5 @@
 import { IRepository } from "./IRepository";
-import { Pouchdb } from "./Pouchdb";
+//import { Pouchdb } from "./Pouchdb";
 import { SupabaseRepo } from "./SupabaseRepo";
 
 export class Repository implements IRepository {
@@ -20,7 +20,7 @@ export class Repository implements IRepository {
     changeDB(db: database, collName: string) {
       switch (db) {
         case 'pouchdb':
-          return new Pouchdb(collName)
+          //return new Pouchdb(collName)
           break;
 
         case 'supabase':

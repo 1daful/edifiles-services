@@ -1,5 +1,11 @@
-import config from "../../utility/config.json";
-import { createClient } from "@supabase/supabase-js";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.auth = void 0;
+const config_json_1 = __importDefault(require("../../utility/config.json"));
+const supabase_js_1 = require("@supabase/supabase-js");
 class SupabaseAuth {
     constructor() {
         //if(SupabaseAuth._instance)
@@ -8,7 +14,7 @@ class SupabaseAuth {
     static get Instance() {
         return this._instance || new SupabaseAuth();
     }
-    supabase = createClient(config.api.Supabase.url, config.api.Supabase.key, config.api.Supabase.options);
+    supabase = (0, supabase_js_1.createClient)(config_json_1.default.api.Supabase.url, config_json_1.default.api.Supabase.key, config_json_1.default.api.Supabase.options);
     auth = this.supabase.auth;
     authenticated = false;
     //jwt?: string
@@ -127,4 +133,5 @@ class SupabaseAuth {
         }
     }
 }
-export const auth = SupabaseAuth.Instance;
+exports.auth = SupabaseAuth.Instance;
+//# sourceMappingURL=SupabaseAuth.js.map
