@@ -1,5 +1,4 @@
 import { IRepository } from "./IRepository";
-import { Pouchdb } from "./Pouchdb";
 import { SupabaseRepo } from "./SupabaseRepo";
 export declare class Repository implements IRepository {
     collName: string;
@@ -7,7 +6,7 @@ export declare class Repository implements IRepository {
     search(field: string, query: string, collName?: string | undefined): Promise<any>;
     find(filters?: Record<string, any>, collName?: string, params?: string[]): Promise<any>;
     db: IRepository;
-    changeDB(db: database, collName: string): Pouchdb | SupabaseRepo;
+    changeDB(db: database, collName: string): SupabaseRepo;
     addItem(collName: string, param: Record<string, any>): Promise<any>;
     addItems(collName: string, param: Record<string, any>[]): Promise<any>;
     readItem(coll: string, field: string, value: string): Promise<Record<string, any>>;

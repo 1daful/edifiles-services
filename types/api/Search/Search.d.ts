@@ -1,7 +1,8 @@
-import { MediaRes } from 'src/Types.js';
-import { MediaType } from 'src/Types.js';
+import { Meilisearch } from '../Search/meilisearch';
+import { MediaRes } from '../../utility/Types';
+import { MediaType } from '../../utility/Types';
 export declare class Search {
-    client: any;
+    client: Meilisearch;
     index(type: MediaRes, items: MediaType[]): void;
-    search(type: MediaRes, keyword: string): Promise<any>;
+    search(type: MediaRes, keyword: string): Promise<import("meilisearch").SearchResponse<Record<string, any>, import("meilisearch").SearchParams>>;
 }

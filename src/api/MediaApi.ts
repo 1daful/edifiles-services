@@ -1,4 +1,4 @@
-import { NetworkLocal } from './network';
+//import { NetworkLocal } from './network';
 import { Axiosi } from "./Axiosi";
 import { Resource } from "./Resource";
 import { IMediaApi } from "./IMediaApi";
@@ -69,7 +69,7 @@ export class MediaApi {
                 resource = iterator;
             }
         }
-        NetworkLocal.test("resource type: ", resource.type)
+        //NetworkLocal.test("resource type: ", resource.type)
         return resource;
     }
 

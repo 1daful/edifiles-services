@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MediaApi = void 0;
-const network_1 = require("./network");
+//import { NetworkLocal } from './network';
 const Axiosi_1 = require("./Axiosi");
 //import { ApiFormat } from "../apiReqFormat/ApiFormat";
 /**
@@ -66,7 +66,7 @@ class MediaApi {
                 resource = iterator;
             }
         }
-        network_1.NetworkLocal.test("resource type: ", resource.type);
+        //NetworkLocal.test("resource type: ", resource.type)
         return resource;
     }
     async getItems(type) {

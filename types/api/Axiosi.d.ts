@@ -1,4 +1,4 @@
-import { ApiClient } from "../apiClient";
+import { ApiClient } from "../utility/apiClient";
 import { Resource } from "./Resource";
 import { AxiosBasicCredentials, AxiosRequestConfig } from 'axios';
 export declare class Axiosi implements ApiClient {

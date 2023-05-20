@@ -1,4 +1,4 @@
-import { ApiClient } from "../apiClient.js";
+import { ApiClient } from "../utility/apiClient";
 //import { ApiFormat } from "../apiReqFormat/ApiFormat";
 import { Resource } from "./Resource.js";
 

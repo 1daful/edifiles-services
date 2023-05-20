@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Search = void 0;
-const Algolia_1 = require("./Algolia");
+const meilisearch_1 = require("../Search/meilisearch");
 class Search {
     //iSearch = new zincSearch()
     /*async index(type: string, items: any) {
@@ -26,7 +26,7 @@ class Search {
             },
         })
     }*/
-    client = new Algolia_1.Algolia;
+    client = new meilisearch_1.Meilisearch();
     index(type, items) {
         this.client.index(type, items);
     }

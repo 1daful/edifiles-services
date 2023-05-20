@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SupabaseStore = void 0;
 const supabase_js_1 = require("@supabase/supabase-js");
-const config_json_1 = __importDefault(require("../../public/config.json"));
+const config_json_1 = __importDefault(require("../../utility/config.json"));
 class SupabaseStore {
     supabase = (0, supabase_js_1.createClient)(config_json_1.default.api.Supabase.url, config_json_1.default.api.Supabase.key);
     async create(path) {
@@ -27,7 +27,7 @@ class SupabaseStore {
     }
     async getThumbnail(bucket, name) {
         //const url = 'public/' + name + 'jpg'
-        return await this.supabase.storage.from(bucket).getPublicUrl(name).publicURL; // path to the image in the bucket 
+        return await this.supabase.storage.from(bucket).getPublicUrl(name).data.publicUrl; // path to the image in the bucket 
     }
     async getFile(url) {
         let response = await fetch(url);

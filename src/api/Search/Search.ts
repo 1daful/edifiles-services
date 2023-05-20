@@ -1,6 +1,6 @@
-import { MediaRes } from 'src/Types.js';
-import { MediaType } from 'src/Types.js';
-import { Algolia } from './Algolia';
+import { Meilisearch } from '../Search/meilisearch';
+import { MediaRes } from '../../utility/Types';
+import { MediaType } from '../../utility/Types';
 export class Search {
     //iSearch = new zincSearch()
     /*async index(type: string, items: any) {
@@ -25,7 +25,7 @@ export class Search {
             },
         })
     }*/
-    client = new Algolia
+    client = new Meilisearch()
     index(type: MediaRes, items: MediaType[]) {
         this.client.index(type, items)
     }

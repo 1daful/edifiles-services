@@ -1,7 +1,7 @@
-import { ApiClient } from "../apiClient";
+import { ApiClient } from "../utility/apiClient";
 import { Resource } from "./Resource";
 import axios, { AxiosBasicCredentials, AxiosRequestConfig } from 'axios';
-import { NetworkLocal } from "./network";
+//import { NetworkLocal } from "./network";
 //import { networkInterfaces } from "os";
 
 export class Axiosi implements ApiClient {
@@ -65,7 +65,7 @@ export class Axiosi implements ApiClient {
                 this.config.auth = auth
                 if (baseUrl) {
                     const response = await axios.post(baseUrl, resource.request.data, this.config)
-                    NetworkLocal.test(this.message);
+                    //NetworkLocal.test(this.message);
                     return resource.getResponse(response.data);
                 }
                     //return this.resource.response.dataList;

@@ -1,4 +1,4 @@
-import { ApiClient } from "../apiClient.js";
+import { ApiClient } from "../utility/apiClient";
 import { Resource } from "./Resource.js";
 /**
  * The interface for all media classes

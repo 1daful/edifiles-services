@@ -15,6 +15,6 @@ export declare class SupabaseStore implements IEdiStorage {
         data: Blob | null;
         error: import("@supabase/storage-js").StorageError | null;
     }>;
-    getThumbnail(bucket: string, name: string): Promise<any>;
+    getThumbnail(bucket: string, name: string): Promise<string>;
     getFile(url: string): Promise<() => Promise<Blob>>;
 }

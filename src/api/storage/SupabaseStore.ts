@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import config from '../../public/config.json';
+import config from '../../utility/config.json';
 import { IEdiStorage } from './IEdiStorage';
 export class SupabaseStore implements IEdiStorage {
   supabase = createClient(config.api.Supabase.url, config.api.Supabase.key)
@@ -26,7 +26,7 @@ export class SupabaseStore implements IEdiStorage {
     
   async getThumbnail(bucket: string, name: string){
     //const url = 'public/' + name + 'jpg'
-    return await this.supabase.storage .from(bucket).getPublicUrl(name).publicURL // path to the image in the bucket 
+    return await this.supabase.storage .from(bucket).getPublicUrl(name).data.publicUrl // path to the image in the bucket 
   }
     
   async getFile(url: string) {

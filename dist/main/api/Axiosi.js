@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Axiosi = void 0;
 const axios_1 = __importDefault(require("axios"));
-const network_1 = require("./network");
+//import { NetworkLocal } from "./network";
 //import { networkInterfaces } from "os";
 class Axiosi {
     /*constructor (resource?: Resource) {
@@ -64,7 +64,7 @@ class Axiosi {
             this.config.auth = auth;
             if (baseUrl) {
                 const response = await axios_1.default.post(baseUrl, resource.request.data, this.config);
-                network_1.NetworkLocal.test(this.message);
+                //NetworkLocal.test(this.message);
                 return resource.getResponse(response.data);
             }
             //return this.resource.response.dataList;

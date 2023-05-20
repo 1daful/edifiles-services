@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Resource = void 0;
 const Response_1 = require("./Response");
 const config_json_1 = __importDefault(require("../utility/config.json"));
+//import { MethodType } from "../utility/Types";
 //import { Utility } from "../Utility";
 /**
  *

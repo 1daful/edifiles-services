@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Repository = void 0;
-const Pouchdb_1 = require("./Pouchdb");
+//import { Pouchdb } from "./Pouchdb";
 const SupabaseRepo_1 = require("./SupabaseRepo");
 class Repository {
     collName;
@@ -20,7 +20,7 @@ class Repository {
     changeDB(db, collName) {
         switch (db) {
             case 'pouchdb':
-                return new Pouchdb_1.Pouchdb(collName);
+                //return new Pouchdb(collName)
                 break;
             case 'supabase':
                 return new SupabaseRepo_1.SupabaseRepo();

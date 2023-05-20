@@ -1,4 +1,4 @@
-import { MediaType } from "./Types";
+//import { MediaType } from "./Types";
 
 //import { Resource } from "./api/Resource";
 export interface ApiClient{

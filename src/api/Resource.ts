@@ -2,7 +2,7 @@ import { Request } from "./Request";
 import { Response } from "./Response";
 import { IMediaApi } from "./IMediaApi";
 import site from "../utility/config.json";
-import { MethodType } from "../utility/Types";
+//import { MethodType } from "../utility/Types";
 //import { Utility } from "../Utility";
 /**
  *
