@@ -1,5 +1,5 @@
 import config from "../../utility/config.json";
-import { createClient, SignInWithOAuthCredentials, SignInWithPasswordCredentials, User, UserAttributes } from "@supabase/supabase-js";
+import { createClient, SignInWithPasswordCredentials, User, UserAttributes } from "@supabase/supabase-js";
 import { IAuth } from "../auth/Auth";
 class SupabaseAuth implements IAuth {
   constructor() {
@@ -77,8 +77,8 @@ class SupabaseAuth implements IAuth {
         return error
     }
     async getUser() {
-      const user = await this.auth.getUser()
-      return user
+      const { data, error} = await this.auth.getUser()
+      return { user: data.user, error}
     }
     async isAuthenticated() {
       //let sess

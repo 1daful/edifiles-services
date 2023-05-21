@@ -133,3 +133,19 @@ export type EmailType = {
 
 export type filterType = "eq" | "gt" | "gte" | "lt" | "lte" | "ne" | "in" | "nin" | "exists" | "all"
 export type MethodType = "post" | "get" | "put" | "delete"
+
+export type Filter = {
+  check: string,
+  range: string
+}
+
+export type FilterCheck = {
+  attribute: string,
+  values: []
+}
+
+export type FilterRange = {
+  attribute: string,
+  lower: number,
+  upper: number
+}

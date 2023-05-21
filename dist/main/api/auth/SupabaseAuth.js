@@ -71,8 +71,8 @@ class SupabaseAuth {
         return error;
     }
     async getUser() {
-        const user = await this.auth.getUser();
-        return user;
+        const { data, error } = await this.auth.getUser();
+        return { user: data.user, error };
     }
     async isAuthenticated() {
         //let sess
