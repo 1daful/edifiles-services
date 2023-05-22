@@ -3,6 +3,8 @@
   "description": "These files contains common website service such as authenticatication, data access e.t.c.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "build && git commit -m $npm_config_message &&  $npm_config_customArg",
+    "build": "run-s clean format build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json"
   },
