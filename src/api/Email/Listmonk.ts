@@ -12,8 +12,7 @@ export class ListMonk implements IMediaApi {
 
     
 transact = (format: EmailType) => {
-    return new Resource(
-        this, "transactionalEmail", 
+    return new Resource(this,
         {
             name: "emailReq",
             baseUrl: "/api/tx",
@@ -26,8 +25,7 @@ transact = (format: EmailType) => {
                 headers: format.headers /*[]*/,
                 content_type: format.contentType /*"html" | "markdown" | "plain"*/
             }
-        }, 
-        "emailResp"
+        }
     )
 }
 
@@ -37,8 +35,7 @@ transact = (format: EmailType) => {
 
 
 campaign = (format: EmailType) => {
-    new Resource(
-        this, "",
+    new Resource(this,
         {
             baseUrl: "/api/campaigns",
             name: "",
@@ -57,8 +54,7 @@ campaign = (format: EmailType) => {
                 template_id: format.templateKey,	
                 tags: format.tags
             }
-        }, 
-        "campaignResp"
+        }
     )
 }
 campaignPostResponse = {
@@ -93,7 +89,7 @@ campaignPostResponse = {
 }
 
     subscriber = (format: Record<string, any>, data: EmailAddress) => {
-        new Resource(this, "contacts",
+        new Resource(this,
             {
                 name: "subscriber",
                 baseUrl: "/subscribers",
@@ -109,8 +105,7 @@ campaignPostResponse = {
                     attribs: data.attributes,
                     preconfirm_subscriptions: data.preconfirmedSub
                     }
-            },
-            "subscriber"
+            }
         )
     }
     getBaseUrl() {

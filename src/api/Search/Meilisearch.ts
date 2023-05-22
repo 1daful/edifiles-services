@@ -1,13 +1,13 @@
 import { MeiliSearch } from 'meilisearch';
 import config from "../../utility/config.json";
-import { Filter, FilterCheck, FilterCustom, FilterRange } from "../../utility/Types";
+import { Filter, FilterCheck, FilterCustom, FilterRange, Sort } from "../../utility/Types";
 
 export class Meilisearch {
     client = new MeiliSearch({ host: config.api.Meilisearch.host, apiKey: config.api.Meilisearch.apiKey });
     test(collName: any) {
         this.client.index(collName).getTask(0);
     }
-    async search(collName: string, query: string, filter: Filter, sort: { attributes: string; order: string; }) {
+    async search(collName: string, query: string, filter: Filter, sort?: Sort) {
         let filt: any[] = [];
         let sortVal: string[] = [];
         if (sort)

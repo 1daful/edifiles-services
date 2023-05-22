@@ -4,9 +4,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "git add . && git commit -m \"$npm_config_message\" && npm version $npm_config_type && git push origin main",
-    "build": "npm-run-all build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json"
+    "build": "npm-run-all -s build:*",
+    "build:main": "tsc -p tsconfig.json --noEmitOnError",
+    "build:module": "tsc -p tsconfig.module.json",
+    "build:*": "npm run --silent --continue-on-error"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,5 @@
-import { Meilisearch } from '../Search/meilisearch';
-import { MediaRes } from '../../utility/Types';
+import { Meilisearch } from '../Search/Meilisearch';
+import { Filter, MediaRes, Sort } from '../../utility/Types';
 import { MediaType } from '../../utility/Types';
 export class Search {
     //iSearch = new zincSearch()
@@ -30,7 +30,7 @@ export class Search {
         this.client.index(type, items)
     }
 
-    async search(type: MediaRes, keyword: string) {
-        return await this.client.search(type, keyword)
+    async search(type: MediaRes, keyword: string,filter: Filter, sort?: Sort) {
+        return await this.client.search(type, keyword, filter, sort)
     }
 }

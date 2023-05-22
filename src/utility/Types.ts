@@ -158,3 +158,8 @@ export type FilterCustom = {
   attribute: string,
   values: any[]
 }
+
+export type Sort = { 
+  attributes: string; 
+  order: string; 
+}

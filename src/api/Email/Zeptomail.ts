@@ -38,7 +38,7 @@ export class Zeptomail implements IMediaApi{
     getResource(req: emailReq, user: EmailAddress[], email: EmailType) {
         switch (req) {
             case "single":
-                return new Resource(this, "email", {
+                return new Resource(this, {
                 name: "emailReq",
                 baseUrl: "/email",
                 params: {},
@@ -61,9 +61,9 @@ export class Zeptomail implements IMediaApi{
                 //mime_headers: { X-Zylker-User: "test-xxxx" }, 
                     attachments: email.attachments, 
                     inline_images: email.inline_images
-                }}, "emailResp")
+                }})
             case "single_template":
-                return new Resource(this, "email", {
+                return new Resource(this, {
                     name: "templateReq",
                     baseUrl: "/email/template",
                     params: {},
@@ -87,9 +87,9 @@ export class Zeptomail implements IMediaApi{
                             "X-Test": "test" 
                         }*/
                     }
-                }, "templateResp")
+                })
             case "batch_template":
-                return new Resource(this, "email", {
+                return new Resource(this, {
                     name: "tempBatch",
                     baseUrl: "/email/template/batch",
                     params: {},
@@ -107,15 +107,15 @@ export class Zeptomail implements IMediaApi{
                             "X-Test": "test" 
                         }*/
                     }
-                }, "tempBatchResp")
+                })
         
             default:
                 
-                return new Resource(this, "", {
+                return new Resource(this, {
                     name: "",
                     baseUrl: "",
                     params: {}
-                }, "");
+                });
         }
     }
 
