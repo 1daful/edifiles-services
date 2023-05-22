@@ -22,7 +22,7 @@
     "url": "https://github.com/1daful/edifiles/issues"
   },
   "homepage": "https://github.com/1daful/edifiles/servicesreadme",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
   "types": "dist/module/index.d.ts",
