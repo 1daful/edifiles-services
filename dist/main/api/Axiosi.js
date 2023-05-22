@@ -29,7 +29,7 @@ class Axiosi {
         //NetworkLocal.test("Calling with Axios config: ", this.config.params)
         //NetworkLocal.test("Config headers: ", this.config.headers)
         if (baseUrl) {
-            const response = await axios_1.default.get(baseUrl, this.config);
+            return await axios_1.default.get(baseUrl, this.config);
             /*.catch((error) => {
                 if (error.request) {
 
@@ -43,9 +43,9 @@ class Axiosi {
                 }
             })*/
             //NetworkLocal.test("response: ", response, "resp")
-            const res = resource.getResponse(response.data);
+            //const res = resource.getResponse(response.data)
             //NetworkLocal.test("axios res: ", res, "res")
-            return res;
+            //return res
         }
         //return this.resource.response.dataList;
         //}
@@ -63,9 +63,9 @@ class Axiosi {
             this.config.params = (await resource.getBaseParam()).baseParams;
             this.config.auth = auth;
             if (baseUrl) {
-                const response = await axios_1.default.post(baseUrl, resource.request.data, this.config);
+                return await axios_1.default.post(baseUrl, resource.request.data, this.config);
                 //NetworkLocal.test(this.message);
-                return resource.getResponse(response.data);
+                //return resource.getResponse(response.data);
             }
             //return this.resource.response.dataList;
         }

@@ -3,8 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EAuth = void 0;
 const SupabaseAuth_1 = require("../auth/SupabaseAuth");
 class EAuth {
-    updateUser() {
-        throw new Error("Method not implemented.");
+    async updateUser(user) {
+        return await this.auth.updateUser(user);
+    }
+    async updateCred(key, val) {
+        return await this.auth.updateCred(key, val);
     }
     async resetPassword(email) {
         return await this.auth.resetPassword(email);

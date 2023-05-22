@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Resource = void 0;
 const Response_1 = require("./Response");
+const Axiosi_1 = require("../api/Axiosi");
 const config_json_1 = __importDefault(require("../utility/config.json"));
 //import { MethodType } from "../utility/Types";
 //import { Utility } from "../Utility";
@@ -14,12 +15,11 @@ const config_json_1 = __importDefault(require("../utility/config.json"));
  * This class prepares the request parameters, and the appropriate response format.
  */
 class Resource {
-    constructor(api, type, request, respName) {
+    constructor(api, request) {
         this.api = api;
-        this.type = type;
         this.request = request;
-        this.response = new Response_1.Response(respName);
-        this.api.resources.push(this);
+        //this.response = new Response(thisrespName);
+        //this.api.resources.push(this);
     }
     /*init<T extends Record<string, any>, U, W>(url: string, query: T, params: U, method: MethodType, data?: W) {
         params
@@ -34,11 +34,15 @@ class Resource {
             data
         }
     }*/
-    type;
+    async init() {
+        return await this.client.get(this);
+        //this.response = new Response(thisrespName);
+    }
     request;
     response;
-    //data!: Record<string, any>;
+    client = new Axiosi_1.Axiosi();
     api;
+    //data!: Record<string, any>;
     URL = config_json_1.default.backURL;
     //setResponse!: Function
     //util = new Utility()
@@ -172,34 +176,11 @@ class Resource {
     /*setDataSource(data: Record<string, any>) {
         this.response.dataSource = data.items;
     }*/
-    getResponse(data) {
+    getResponse(respName, data) {
         //this.setDataSource(data);
-        return this.api.getData(data);
-    }
-    getData(resData) {
-        let respData = [];
-        let mData;
-        for (const data of resData) {
-            mData = {
-                type: "books",
-                id: data.id,
-                status: '',
-                privacy: '',
-                tags: [],
-                description: data.volumeInfo.description,
-                genre: data.mainCategory,
-                thumbnailSmall: data.volumeInfo.imageLinks.smallThumbnail,
-                thumbnailLarge: data.volumeInfo.imageLinks.thumbnail,
-                created: data.volumeInfo.publishedDate,
-                license: '',
-                title: data.volumeInfo.title,
-                authors: data.authors,
-                printType: data.printType //book or magazine
-            };
-            //this.volumeRes.response.dataList.push(mData);
-            respData.push(mData);
-        }
-        return respData;
+        this.response = new Response_1.Response(respName);
+        this.response.data = data;
+        //return this.api.getData(data);
     }
 }
 exports.Resource = Resource;

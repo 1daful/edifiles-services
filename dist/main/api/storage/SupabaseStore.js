@@ -12,9 +12,6 @@ class SupabaseStore {
         const { data, error } = await this.supabase.storage.createBucket(path);
         return { data, error };
     }
-    async getUrl(collName, path) {
-        return await this.supabase.storage.from(collName).getPublicUrl(path);
-    }
     async upload(collName, path, file) {
         const { data, error } = await this.supabase.storage
             .from(collName)
@@ -25,7 +22,7 @@ class SupabaseStore {
         const { data, error } = await this.supabase.storage.from(collName).download(path);
         return { data, error };
     }
-    async getThumbnail(bucket, name) {
+    async getUrl(bucket, name) {
         //const url = 'public/' + name + 'jpg'
         return await this.supabase.storage.from(bucket).getPublicUrl(name).data.publicUrl; // path to the image in the bucket 
     }

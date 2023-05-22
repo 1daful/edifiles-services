@@ -4,11 +4,20 @@ exports.EdiStorage = void 0;
 const SupabaseStore_1 = require("./SupabaseStore");
 class EdiStorage {
     storage = new SupabaseStore_1.SupabaseStore();
-    upload(collName, path, file) {
-        this.storage.upload(collName, path, file);
+    async create(path) {
+        return await this.storage.create(path);
     }
-    download(collName, path) {
-        this.storage.download(collName, path);
+    async getUrl(bucket, name) {
+        return await this.storage.getUrl(bucket, name);
+    }
+    async getFile(url) {
+        return await this.storage.getFile(url);
+    }
+    async upload(collName, path, file) {
+        return await this.storage.upload(collName, path, file);
+    }
+    async download(collName, path) {
+        return await this.storage.download(collName, path);
     }
 }
 exports.EdiStorage = EdiStorage;
