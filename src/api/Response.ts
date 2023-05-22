@@ -1,3 +1,5 @@
+import { Resource } from "./Resource";
+
 export class Response {
     name: string;
     data!: Record<string, any>;

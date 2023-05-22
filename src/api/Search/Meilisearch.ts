@@ -1,15 +1,15 @@
 import { MeiliSearch } from 'meilisearch';
 import config from "../../utility/config.json";
-import { Filter, FilterCheck, FilterRange } from "../../utility/Types";
+import { Filter, FilterCheck, FilterCustom, FilterRange } from "../../utility/Types";
 
 export class Meilisearch {
     client = new MeiliSearch({ host: config.api.Meilisearch.host, apiKey: config.api.Meilisearch.apiKey });
     test(collName: any) {
         this.client.index(collName).getTask(0);
     }
-    async search(collName: string, query: string, filter: Filter, sort) {
-        let filt = [];
-        let sortVal = [];
+    async search(collName: string, query: string, filter: Filter, sort: { attributes: string; order: string; }) {
+        let filt: any[] = [];
+        let sortVal: string[] = [];
         if (sort)
             sortVal = [sort.attributes + ':' + sort.order];
         if (filter) {
@@ -29,23 +29,23 @@ export class Meilisearch {
             sort: sortVal
         });
     }
-    index(collName, items) {
+    index(collName: string, items: Record<string, any>[]) {
         this.client.index(collName).addDocuments(items)
             .then((res) => console.log("meilisearch", res));
     }
-    updateSettings(index, filterablesAttributes, sortableAttributes) {
+    updateSettings(index: string, filterablesAttributes: any, sortableAttributes: any) {
         this.client.index(index).updateSettings({
             filterableAttributes: filterablesAttributes,
             sortableAttributes: sortableAttributes
         });
     }
-    sort(index) {
+    sort(index: string) {
         this.client.index(index).updateRankingRules(['word', 'sort', 'typo', 'proximity', 'attribute', 'exactness']);
     }
-    filters(filters: Filter[]) {
-        let attrs = [];
+    filters(filters: FilterCustom[]) {
+        let attrs: any[][] = [];
         filters.forEach(filter => {
-            let filts = [];
+            let filts: any[] = [];
             filter.values.forEach(value => {
                 let filt = '';
                 filt = filter.attribute + ' ' + value.op + ' ' + value.value;
@@ -55,8 +55,8 @@ export class Meilisearch {
         });
         return attrs;
     }
-    filter(filter) {
-        let filts = [];
+    filter(filter: FilterCustom) {
+        let filts: string[] = [];
         filter.values.forEach(value => {
             let filt = '';
             filt = filter.attribute + ' ' + value.op + ' ' + value.value;
@@ -64,8 +64,8 @@ export class Meilisearch {
         });
         return filts;
     }
-    checkFilter(filterCheck) {
-        let filts = [];
+    checkFilter(filterCheck: FilterCheck) {
+        let filts: string[] = [];
         filterCheck.values.forEach(value => {
             let filt = '';
             filt = filterCheck.attribute + ' ' + '=' + ' ' + value;
@@ -73,10 +73,10 @@ export class Meilisearch {
         });
         return filts;
     }
-    checkFilters(filterChecks) {
-        let filters = [];
+    checkFilters(filterChecks: FilterCheck[]) {
+        let filters: any[][] = [];
         filterChecks.forEach(filter => {
-            let filts = [];
+            let filts: any[] = [];
             filter.values.forEach(value => {
                 let filt = '';
                 filt = filter.attribute + ' ' + '=' + ' ' + value;
@@ -86,13 +86,13 @@ export class Meilisearch {
         });
         return filters;
     }
-    rangeFilter(filterRange) {
+    rangeFilter(filterRange: FilterRange) {
         let filt = '';
         filt = filterRange.attribute + ' ' + filterRange.lower + ' ' + filterRange.upper;
         return filt;
     }
-    rangeFilters(filterRanges) {
-        let filters = [];
+    rangeFilters(filterRanges: FilterRange[]) {
+        let filters: string[] = [];
         filterRanges.forEach(range => {
             let filt = '';
             filt = range.attribute + ' ' + range.lower + ' ' + range.upper;

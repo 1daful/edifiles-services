@@ -28,7 +28,7 @@ export class Axiosi implements ApiClient {
                 //NetworkLocal.test("Calling with Axios config: ", this.config.params)
                 //NetworkLocal.test("Config headers: ", this.config.headers)
                 if (baseUrl) {
-                    const response: any = await axios.get(baseUrl, this.config)
+                    return await axios.get(baseUrl, this.config)
                     /*.catch((error) => {
                         if (error.request) {
 
@@ -42,9 +42,9 @@ export class Axiosi implements ApiClient {
                         }
                     })*/
                     //NetworkLocal.test("response: ", response, "resp")
-                    const res = resource.getResponse(response.data)
+                    //const res = resource.getResponse(response.data)
                     //NetworkLocal.test("axios res: ", res, "res")
-                    return res
+                    //return res
                 }
                 //return this.resource.response.dataList;
             //}
@@ -64,9 +64,9 @@ export class Axiosi implements ApiClient {
                 this.config.params = (await resource.getBaseParam()).baseParams;
                 this.config.auth = auth
                 if (baseUrl) {
-                    const response = await axios.post(baseUrl, resource.request.data, this.config)
+                    return await axios.post(baseUrl, resource.request.data, this.config)
                     //NetworkLocal.test(this.message);
-                    return resource.getResponse(response.data);
+                    //return resource.getResponse(response.data);
                 }
                     //return this.resource.response.dataList;
             }

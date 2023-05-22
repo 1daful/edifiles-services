@@ -1,3 +1,6 @@
+export { IRepository } from "../model/IRepository";
+export { ApiClient } from "../utility/apiClient";
+
 export type MediaType = {
   id: string
   title: string
@@ -131,21 +134,27 @@ export type EmailType = {
   body: string
 }
 
-export type filterType = "eq" | "gt" | "gte" | "lt" | "lte" | "ne" | "in" | "nin" | "exists" | "all"
+export type FilterType = "eq" | "gt" | "gte" | "lt" | "lte" | "ne" | "in" | "nin" | "exists" | "all"
 export type MethodType = "post" | "get" | "put" | "delete"
 
 export type Filter = {
-  check: string,
-  range: string
+  check: FilterCheck[],
+  range: FilterRange[],
+  custom: FilterCustom[]
 }
 
 export type FilterCheck = {
   attribute: string,
-  values: []
+  values: any[]
 }
 
 export type FilterRange = {
   attribute: string,
   lower: number,
   upper: number
+}
+
+export type FilterCustom = {
+  attribute: string,
+  values: any[]
 }

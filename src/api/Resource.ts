@@ -1,7 +1,8 @@
 import { Request } from "./Request";
 import { Response } from "./Response";
-import { IMediaApi } from "./IMediaApi";
+import { Axiosi } from "../api/Axiosi";
 import site from "../utility/config.json";
+import { IMediaApi } from "./IMediaApi";
 //import { MethodType } from "../utility/Types";
 //import { Utility } from "../Utility";
 /**
@@ -10,12 +11,11 @@ import site from "../utility/config.json";
  * This class prepares the request parameters, and the appropriate response format.
  */
 export class Resource {
-    constructor(api: IMediaApi, type: string, request: Request, respName: string) {
-        this.api = api;
-        this.type = type;
+    constructor(api: IMediaApi, request: Request) {
+        this.api = api
         this.request = request;
-        this.response = new Response(respName);
-        this.api.resources.push(this);
+        //this.response = new Response(thisrespName);
+        //this.api.resources.push(this);
     }
 
     /*init<T extends Record<string, any>, U, W>(url: string, query: T, params: U, method: MethodType, data?: W) {
@@ -31,12 +31,16 @@ export class Resource {
             data
         }
     }*/
+    async init() {
+        return await this.client.get(this)
+        //this.response = new Response(thisrespName);
+    }
 
-    type: string;
     request: Request;
-    response: Response;
+    response!: Response
+    client = new Axiosi()
+    api
     //data!: Record<string, any>;
-    api: IMediaApi;
     URL = site.backURL
     //setResponse!: Function
 
@@ -184,36 +188,13 @@ export class Resource {
         this.response.dataSource = data.items;
     }*/
 
-    getResponse(data: any) {
+    getResponse(respName: string, data: any) {
         //this.setDataSource(data);
-        return this.api.getData(data);
+        this.response = new Response(respName)
+        this.response.data = data
+        //return this.api.getData(data);
     }
 
-    getData(resData: Record<string, any>[]) {
-        let respData: Record<string, any>[] = [];
-        let mData: Record<string, any>
-        for (const data of resData) {
-            mData = {
-                type: "books",
-                id: data.id,
-                status: '',
-                privacy: '',
-                tags: [],
-                description: data.volumeInfo.description,
-                genre: data.mainCategory,
-                thumbnailSmall: data.volumeInfo.imageLinks.smallThumbnail,
-                thumbnailLarge: data.volumeInfo.imageLinks.thumbnail,
-                created: data.volumeInfo.publishedDate,
-                license: '',
-                title: data.volumeInfo.title,
-                authors: data.authors,
-                printType: data.printType //book or magazine
-            }
-            //this.volumeRes.response.dataList.push(mData);
-            respData.push(mData);
-        }
-        return respData
-    }
     /*addResource(api: IMediaApi){
         api.resources.push(this);
     }*/
