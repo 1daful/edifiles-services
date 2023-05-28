@@ -50,10 +50,11 @@ export class Utility {
             //let params = token.searchParams
         
       }
-    
-    isObjectWithProperties<T>(obj: any, properties: (keyof T)[]): obj is T {
-        return typeof obj === 'object' && properties.every(prop => prop in obj);
-    }
+      isType<T>(obj: any): obj is T {
+        const propertiesToCheck: (keyof T)[] = Object.keys(obj) as (keyof T)[];
+        return propertiesToCheck.every(prop => typeof obj[prop] !== 'undefined');
+      }
+      
       
 
 }
