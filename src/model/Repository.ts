@@ -9,6 +9,9 @@ export class Repository implements IRepository {
        //this.db = new Pouchdb(collName)
       this.db = new SupabaseRepo()
     }
+  async readQuery(tableName: string, ids: string[]) {
+    return await this.db.readQuery(tableName, ids)
+  }
   search(field: string, query: string, collName?: string | undefined): Promise<any> {
     return this.db.search(field, query);
   }

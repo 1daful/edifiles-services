@@ -73,28 +73,35 @@ export class SupabaseRepo implements IRepository {
         return data as unknown as Promise<Record<string, any>[]>
         }*/
 
-        async readItems(table: string, foreignTable?: {coll: string, key: string, fKey: string}, filters?: [{prop: string, operator: any, value: string}], range?: {lower: number, upper: number}, limit?: number) {
-            let query: Function
-            query = () => this.supabase.from(table).select()
-            if(foreignTable) {
-                query = () => this.supabase.from(table).select(`${foreignTable.key}, ${foreignTable.coll}(${foreignTable.fKey})`)
-            }
-            if(filters) {
-                filters.forEach(filter => {
-                    query = () => query().filter(filter.prop, filter.operator, filter.value)
-                    //query = () => query().eq(filter.prop, filter.value)
-                });
-            }
-            if(range) {
-                query = query().range(range.lower, range.upper)
-            }
-            if(limit) {
-                query = query().limit(limit)
-            }
-            const { data, error } = await query()
-            return data as unknown as Promise<Record<string, any>[]>
+    async readItems(table: string, foreignTable?: {coll: string, key: string, fKey: string}, filters?: [{prop: string, operator: any, value: string}], range?: {lower: number, upper: number}, limit?: number) {
+        let query: Function
+        query = () => this.supabase.from(table).select()
+        if(foreignTable) {
+            query = () => this.supabase.from(table).select(`${foreignTable.key}, ${foreignTable.coll}(${foreignTable.fKey})`)
         }
-
+        if(filters) {
+            filters.forEach(filter => {
+                query = () => query().filter(filter.prop, filter.operator, filter.value)
+                //query = () => query().eq(filter.prop, filter.value)
+            });
+        }
+        if(range) {
+            query = query().range(range.lower, range.upper)
+        }
+        if(limit) {
+            query = query().limit(limit)
+        }
+        const { data, error } = await query()
+        return data as unknown as Promise<Record<string, any>[]>
+    }
+    async readQuery(tableName: string, ids: Array<string>) {
+        return await this.supabase.rpc('select_items_by_ids', {
+        table_name: tableName,
+        ids: ids,
+        });
+    
+        // Process the data as needed
+      }
     async updateItem(newItem: any, oldItem: Record<string, any>, collName: string): Promise<void> {
         const { data, error } = await this.supabase
           .from(collName)

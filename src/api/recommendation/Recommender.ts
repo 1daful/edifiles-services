@@ -1,8 +1,10 @@
 import { Feedback, DateTime } from 'gorsejs/src/interfaces';
 import { Gorse } from "gorsejs/src";
 import config from "../../utility/config.json"
+import { Repository } from '../../model/Repository';
 
 export class Recommender {
+    repo = new Repository()
     /*bookMedia: IMedia = new BookMedia("books");
     quoteMedia: IMedia = new QuoteMedia("quotes");
     musicMedia: IMedia = new MusicMedia("music");
@@ -94,7 +96,9 @@ export class Recommender {
         const params = {
             category
         }
-        return await this.client.getPopular(params)
+        const popularOutput = await this.client.getPopular(params)
+        return await this.repo.readQuery('', popularOutput.map(output => output.Id))
+
         /*this.client = new Repository("Books")
         const books = this.client.readItems()
         return this.client.readItems("Quotes")*/
@@ -105,15 +109,17 @@ export class Recommender {
             category
         }
         //return await this.load(category)
-        return await this.client.getLatest(params)
+        const latestOutput = await this.client.getLatest(params)
+        return await this.repo.readQuery('', latestOutput.map(output => output.Id))
     }
 
     async getRelated(itemId: string, category?: string) {
         const params = {
             itemId,
             category
-        } 
-        return await this.client.getItemNeighbors(params)
+        }
+        const relatedOutput = await this.client.getPopular(params)
+        return await this.repo.readQuery('', relatedOutput.map(output => output.Id))
     }
 
     async insertFeedback(/*itemId: string, category: string, userId: string, score: number*/userId: string, feedbackType: string, itemId: string, timestamp: DateTime) {

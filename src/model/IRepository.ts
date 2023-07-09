@@ -9,4 +9,5 @@ export interface IRepository {
     //setChild(subPath: string, item: Record<string, any>): void;
     find(filters?: Record<string, any>, collName?: string): Promise<any>
     search(field: string, query: string, collName?: string): Promise<any>
+    readQuery(tableName: string, ids: Array<string>): any
 }
