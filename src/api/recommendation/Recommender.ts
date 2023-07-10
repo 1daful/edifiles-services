@@ -12,11 +12,16 @@ export class Recommender {
     //media: Media = new Media("collections")
 
     //client: IRepository = new Repository("Books");
-    
-    client = new Gorse({
-        endpoint: config.api.Gorse.id,
-        secret: config.api.Gorse.key,
-      });
+
+    getClient(name: string): Gorse<string> | undefined {
+        const clientOptions = config.api.Gorse.find(client => client.name === name);
+        if(clientOptions) {
+            return new Gorse({
+                endpoint: clientOptions.id,
+                secret: clientOptions.key
+            })
+        }
+      }
 
       /*client = new Axiosi()
       baseUrl = config.api.Regommend.baseUrl*/
@@ -83,46 +88,58 @@ export class Recommender {
         await media.fetch(type, params)
     }*/
 
-    async getRecommended(userId: string, category?: string) {
+    async getRecommended(source: string, userId: string, category?: string) {
         const params = {
             userId,
             category
         }
-        return await this.client.getRecommend(params)
+        const client = this.getClient(source)
+        if (client)
+        return await client.getRecommend(params)
         //return await this.client.load(this.baseUrl + "/recommends", params)
     }
 
-    async getPopular(category?: string) {
+    async getPopular(source: string, category?: string) {
         const params = {
             category
         }
-        const popularOutput = await this.client.getPopular(params)
-        return await this.repo.readQuery('', popularOutput.map(output => output.Id))
+        const client = this.getClient(source)
+        if (client) {
+            const popularOutput = await client.getPopular(params)
+            return await this.repo.readQuery('', popularOutput.map(output => output.Id))
+        }
 
         /*this.client = new Repository("Books")
         const books = this.client.readItems()
         return this.client.readItems("Quotes")*/
     }
 
-    async getLatest(category?: string) {
+    async getLatest(source: string, category?: string) {
         const params = {
             category
         }
         //return await this.load(category)
-        const latestOutput = await this.client.getLatest(params)
-        return await this.repo.readQuery('', latestOutput.map(output => output.Id))
+        const client = this.getClient(source)
+        if (client) {
+            const latestOutput = await client.getLatest(params)
+            return await this.repo.readQuery('', latestOutput.map(output => output.Id))
+        }
     }
 
-    async getRelated(itemId: string, category?: string) {
+    async getRelated(source: string, itemId: string, category?: string) {
         const params = {
             itemId,
             category
         }
-        const relatedOutput = await this.client.getPopular(params)
-        return await this.repo.readQuery('', relatedOutput.map(output => output.Id))
+        const client = this.getClient(source)
+        if (client) {
+            const relatedOutput = await client.getItemNeighbors(params)
+            
+            return await this.repo.readQuery('', relatedOutput)
+        }
     }
 
-    async insertFeedback(/*itemId: string, category: string, userId: string, score: number*/userId: string, feedbackType: string, itemId: string, timestamp: DateTime) {
+    async insertFeedback(/*itemId: string, category: string, userId: string, score: number*/source: string, userId: string, feedbackType: string, itemId: string, timestamp: DateTime) {
         /*const feedback = {
             score: score,
             itemId: itemId,
@@ -139,18 +156,24 @@ export class Recommender {
         const feedbacks: Feedback<string>[] = [feedback]
         //await this.client.insertUser({UserId: userId})
         //await this.client.insertUser({UserId: "002"})
-        await this.client.insertFeedbacks(feedbacks)
+        const client = this.getClient(source)
+        if (client)
+        await client.insertFeedbacks(feedbacks)
         //return await this.client.postTo(config.api.Regommend.baseUrl + "/feedback", null, feedback)
     }
 
-    async insertUser(id: string) {
+    async insertUser(source: string, id: string) {
         const user = {
             UserId: id,
         }
-        await this.client.insertUser(user)
+        const client = this.getClient(source)
+        if (client)
+        await client.insertUser(user)
     }
 
-    async insertItem(itemId: string, category: string) {
-        await this.client.insertItemCategory(itemId, category)
+    async insertItem(source: string, itemId: string, category: string) {
+        const client = this.getClient(source)
+        if (client)
+        await client.insertItemCategory(itemId, category)
     }
 }
