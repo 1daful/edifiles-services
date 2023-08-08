@@ -30,7 +30,7 @@ export class Search {
         this.client.index(type, items)
     }
 
-    async search(type: MediaRes, keyword: string,filter: Filter, sort?: Sort) {
+    async search(type: MediaRes, keyword: string,filter?: Filter, sort?: Sort) {
         return await this.client.search(type, keyword, filter, sort)
     }
 }

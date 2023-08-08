@@ -7,7 +7,7 @@ export class Meilisearch {
     test(collName: any) {
         this.client.index(collName).getTask(0);
     }
-    async search(collName: string, query: string, filter: Filter, sort?: Sort) {
+    async search(collName: string, query: string, filter?: Filter, sort?: Sort) {
         let filt: any[] = [];
         let sortVal: string[] = [];
         if (sort)
