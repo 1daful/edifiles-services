@@ -40,7 +40,7 @@ class Zeptomail {
     getResource(req, user, email) {
         switch (req) {
             case "single":
-                return new Resource_1.Resource(this, "email", {
+                return new Resource_1.Resource(this, {
                     name: "emailReq",
                     baseUrl: "/email",
                     params: {},
@@ -64,9 +64,9 @@ class Zeptomail {
                         attachments: email.attachments,
                         inline_images: email.inline_images
                     }
-                }, "emailResp");
+                });
             case "single_template":
-                return new Resource_1.Resource(this, "email", {
+                return new Resource_1.Resource(this, {
                     name: "templateReq",
                     baseUrl: "/email/template",
                     params: {},
@@ -90,9 +90,9 @@ class Zeptomail {
                             "X-Test": "test"
                         }*/
                     }
-                }, "templateResp");
+                });
             case "batch_template":
-                return new Resource_1.Resource(this, "email", {
+                return new Resource_1.Resource(this, {
                     name: "tempBatch",
                     baseUrl: "/email/template/batch",
                     params: {},
@@ -110,13 +110,13 @@ class Zeptomail {
                             "X-Test": "test"
                         }*/
                     }
-                }, "tempBatchResp");
+                });
             default:
-                return new Resource_1.Resource(this, "", {
+                return new Resource_1.Resource(this, {
                     name: "",
                     baseUrl: "",
                     params: {}
-                }, "");
+                });
         }
     }
     //token = config.api.Zeptomail.token;

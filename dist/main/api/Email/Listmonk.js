@@ -12,7 +12,7 @@ class ListMonk {
     client = new Axiosi_1.Axiosi();
     resources = [];
     transact = (format) => {
-        return new Resource_1.Resource(this, "transactionalEmail", {
+        return new Resource_1.Resource(this, {
             name: "emailReq",
             baseUrl: "/api/tx",
             params: {},
@@ -24,13 +24,13 @@ class ListMonk {
                 headers: format.headers /*[]*/,
                 content_type: format.contentType /*"html" | "markdown" | "plain"*/
             }
-        }, "emailResp");
+        });
     };
     transactionalResponse = {
         "data": true
     };
     campaign = (format) => {
-        new Resource_1.Resource(this, "", {
+        new Resource_1.Resource(this, {
             baseUrl: "/api/campaigns",
             name: "",
             params: {},
@@ -48,7 +48,7 @@ class ListMonk {
                 template_id: format.templateKey,
                 tags: format.tags
             }
-        }, "campaignResp");
+        });
     };
     campaignPostResponse = {
         "data": {
@@ -81,7 +81,7 @@ class ListMonk {
         }
     };
     subscriber = (format, data) => {
-        new Resource_1.Resource(this, "contacts", {
+        new Resource_1.Resource(this, {
             name: "subscriber",
             baseUrl: "/subscribers",
             params: {
@@ -96,7 +96,7 @@ class ListMonk {
                 attribs: data.attributes,
                 preconfirm_subscriptions: data.preconfirmedSub
             }
-        }, "subscriber");
+        });
     };
     getBaseUrl() {
         const apiBaseUrl = config_json_1.default.api.ListMonk.baseUrl;

@@ -10,6 +10,9 @@ class Repository {
         //this.db = new Pouchdb(collName)
         this.db = new SupabaseRepo_1.SupabaseRepo();
     }
+    async readQuery(tableName, ids) {
+        return await this.db.readQuery(tableName, ids);
+    }
     search(field, query, collName) {
         return this.db.search(field, query);
     }

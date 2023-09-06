@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Search = void 0;
-const meilisearch_1 = require("../Search/meilisearch");
+const Meilisearch_1 = require("../Search/Meilisearch");
 class Search {
     //iSearch = new zincSearch()
     /*async index(type: string, items: any) {
@@ -26,12 +26,12 @@ class Search {
             },
         })
     }*/
-    client = new meilisearch_1.Meilisearch();
+    client = new Meilisearch_1.Meilisearch();
     index(type, items) {
         this.client.index(type, items);
     }
-    async search(type, keyword) {
-        return await this.client.search(type, keyword);
+    async search(type, keyword, filter, sort) {
+        return await this.client.search(type, keyword, filter, sort);
     }
 }
 exports.Search = Search;

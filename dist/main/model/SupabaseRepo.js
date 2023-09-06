@@ -91,6 +91,13 @@ class SupabaseRepo {
         const { data, error } = await query();
         return data;
     }
+    async readQuery(tableName, ids) {
+        return await this.supabase.rpc('select_items_by_ids', {
+            table_name: tableName,
+            ids: ids,
+        });
+        // Process the data as needed
+    }
     async updateItem(newItem, oldItem, collName) {
         const { data, error } = await this.supabase
             .from(collName)

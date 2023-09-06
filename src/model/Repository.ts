@@ -44,7 +44,7 @@ export class Repository implements IRepository {
     async readItem(coll: string, field: string, value: string): Promise<Record<string, any>> {
         return await this.db.readItem(coll, field, value);
     }
-    async readItems(table: string, foreignTable?: {coll: string, key: string, fKey: string}, filters?: [{prop: string, operator: any, value: string}], range?: {lower: number, upper: number}, limit?: number): Promise<Record<string, any>[]> {
+    async readItems(table: string, foreignTable?: {coll: string, key: string, fKey: string}, filters?: {prop: string, operator: any, value: string}[], range?: {lower: number, upper: number}, limit?: number): Promise<Record<string, any>[]> {
         return await this.db.readItems(table, foreignTable, filters, range, limit)
     }
     updateItem(docId: any, param: Record<string, any>): void {

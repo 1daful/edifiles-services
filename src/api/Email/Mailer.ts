@@ -4,14 +4,15 @@ import { EmailAddress } from '../../utility/Types';
 import { Zeptomail } from './Zeptomail';
 import { Axiosi } from '../Axiosi';
 import config from "../../utility/config.json"
+import { userSignUp } from "../../viewResolver/userViewResolver";
+
 export class Mailer {
     client = new Axiosi()
     sender = config.email.address
     host = "smtp.zeptomail.com"
     messenger = new ListMonk()
-
-    sendEmail(email: EmailType) {
-        
+    
+sendEmail(email: EmailType) {
         this.client.post(this.messenger.transact(email))
         /*let msg = {
             sender: this.sender,

@@ -73,7 +73,7 @@ export class SupabaseRepo implements IRepository {
         return data as unknown as Promise<Record<string, any>[]>
         }*/
 
-    async readItems(table: string, foreignTable?: {coll: string, key: string, fKey: string}, filters?: [{prop: string, operator: any, value: string}], range?: {lower: number, upper: number}, limit?: number) {
+    async readItems(table: string, foreignTable?: {coll: string, key: string, fKey: string}, filters?: {prop: string, operator: any, value: string}[], range?: {lower: number, upper: number}, limit?: number) {
         let query: Function
         query = () => this.supabase.from(table).select()
         if(foreignTable) {

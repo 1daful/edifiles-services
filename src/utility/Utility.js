@@ -1,12 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Utility = void 0;
-class Utility {
-    handler = {
-        get: function (obj, prop) {
-            return prop in obj ? obj[prop] : 'defValue';
-        }
-    };
+export class Utility {
+    constructor() {
+        this.handler = {
+            get: function (obj, prop) {
+                return prop in obj ? obj[prop] : 'defValue';
+            }
+        };
+    }
     getDefaultProxy(target) {
         return new Proxy(target, this.handler);
     }
@@ -47,10 +46,4 @@ class Utility {
         return ret;
         //let params = token.searchParams
     }
-    isType(obj) {
-        const propertiesToCheck = Object.keys(obj);
-        return propertiesToCheck.every(prop => typeof obj[prop] !== 'undefined');
-    }
 }
-exports.Utility = Utility;
-//# sourceMappingURL=Utility.js.map

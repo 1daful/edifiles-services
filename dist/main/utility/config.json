@@ -175,10 +175,11 @@
             "id": "",
             "key": ""
         },
-        "Gorse": {
-            "id": "http://127.0.0.1:8088",
-            "key": ""
-        },
+        "Gorse": [{
+                "name": "",
+                "id": "http://127.0.0.1:8088",
+                "key": ""
+            }],
         "Regommend": {
             "baseUrl": "http://localhost:2000/api"
         },
