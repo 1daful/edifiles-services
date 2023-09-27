@@ -638,3 +638,25 @@ export const Layout = {
         size: 'col-8'
     })
 }
+
+export type Argument = {
+    name: string,
+    value: string
+}
+
+export type Selection = {
+    arguments?: Argument[],
+    name: string,
+    selections?: Selection[]
+}
+
+export type Definition = {
+    name?: string
+    variableDefinitions?: []
+    selections?: Selection[]
+}
+
+export type Query = {
+    kind: string
+    definitions: Definition[]
+}

@@ -1,4 +1,5 @@
-{
+import { cacheExchange, fetchExchange } from "@urql/vue";
+export const config = {
     "title": "Edifeeds",
     "baseUrl": "/",
     "backURL": "http://localhost:2000/api",
@@ -273,9 +274,9 @@
           "apiKey": "d449e47884967a7a8267ec683fce149df78e3f8e"
         },
 
-        "Urql": {
-          "config": {
-            "exchanges": []
+        Urql: {
+          config: {
+            exchanges: [cacheExchange, fetchExchange]
           }
         }
     },

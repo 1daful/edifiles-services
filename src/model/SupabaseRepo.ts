@@ -1,8 +1,49 @@
 import { IRepository } from "../model/IRepository";
-import config from "../utility/config.json";
+import { config } from "../config";
 import { createClient } from '@supabase/supabase-js';
+import { IClient } from "../clients/IClient";
+import { parseQuery } from "../utility/Query";
+import { DocumentNode } from "graphql";
 
-export class SupabaseRepo implements IRepository {
+export class SupabaseRepo implements IRepository, IClient {
+    get(query: any, variables?: any) {
+        throw new Error("Method not implemented.");
+    }
+    async readIte(query: DocumentNode): Promise<Record<string, any>> {
+        const jsonData = parseQuery(query)
+        const selection = jsonData.definitions[0].selections[0]
+        const { data, error } = await this.supabase
+        .from(selection?.name)
+        .select(selection.arguments).eq(field, value)
+
+        return data as unknown as Promise<Record<string, any>[]>
+    }
+
+    async readItes(table: string, foreignTable?: {coll: string, key: string, fKey: string}, filters?: {prop: string, operator: any, value: string}[], range?: {lower: number, upper: number}, limit?: number) {
+        let query: Function
+        query = () => this.supabase.from(table).select()
+        if(foreignTable) {
+            query = () => this.supabase.from(table).select(`${foreignTable.key}, ${foreignTable.coll}(${foreignTable.fKey})`)
+        }
+        if(filters) {
+            filters.forEach(filter => {
+                query = () => query().filter(filter.prop, filter.operator, filter.value)
+                //query = () => query().eq(filter.prop, filter.value)
+            });
+        }
+        if(range) {
+            query = query().range(range.lower, range.upper)
+        }
+        if(limit) {
+            query = query().limit(limit)
+        }
+        const { data, error } = await query()
+        return data as unknown as Promise<Record<string, any>[]>
+    }
+
+    post(query: any, data: any, variables?: any) {
+        throw new Error("Method not implemented.");
+    }
     async search(field: string, query: string, collName: string): Promise<any> {
         let i = 0
             const { data, error } = await this.supabase

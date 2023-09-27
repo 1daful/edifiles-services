@@ -10,3 +10,6 @@ export { Response } from "./api/Response";
 export { Resource } from "./api/Resource";
 export { Request } from "./api/Request";
 export { Utility } from "./utility/Utility";
+export { GraphqlClient } from "./clients/GraphqlClient";
+export { RestClient } from "./clients/RestClient";
+export { SDKClient } from "./clients/SDKClient";
