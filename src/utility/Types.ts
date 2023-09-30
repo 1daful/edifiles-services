@@ -641,7 +641,9 @@ export const Layout = {
 
 export type Argument = {
     name: string,
-    value: string
+    value?: string,
+    values?: [],
+    fields?: []
 }
 
 export type Selection = {

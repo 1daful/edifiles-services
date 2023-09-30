@@ -1,13 +1,38 @@
-import { ArgumentNode, DocumentNode, FieldNode, OperationDefinitionNode } from "graphql";
-import { Argument, Definition, Query, Selection } from "./Types";
+import { ArgumentNode, DocumentNode, FieldNode, ListValueNode, OperationDefinitionNode } from "graphql";
+import { Definition, Query, Selection } from "./Types";
 
-const getArgument = (argument: ArgumentNode[]) => {
-    let args: Argument[] = []
-    argument.forEach(argument => {
-        args.push({
-            name: argument.name.value,
-            value: argument.value.value
-        })
+const getArguments = (dArgs: ArgumentNode[]) => {
+    let args: any[] = []
+    dArgs.forEach(argument => {
+
+        if(argument.value.kind === 'ListValue') {
+            args.push({
+                name: argument.name.value,
+                values: getArguments(argument.value.values)
+            })
+        }
+
+        if(argument.value.kind === 'ObjectValue') {
+            let fields: Record<string, any>
+
+            argument.value.fields.forEach(field => {
+                fields[field.name.value] = field.value
+            });
+
+            args.push({
+                name: argument.name.value,
+                fields: argument.value.fields.map((field)=> {
+                    return { [field.name.value]: field.value }
+                })
+            })
+        }
+
+        if(argument.value.kind === 'StringValue' || argument.value.kind === 'IntValue') {
+            args.push({
+                name: argument.name.value,
+                value: argument.value.value
+            })
+        }
     });
     return args
 }

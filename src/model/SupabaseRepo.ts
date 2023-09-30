@@ -6,44 +6,61 @@ import { parseQuery } from "../utility/Query";
 import { DocumentNode } from "graphql";
 
 export class SupabaseRepo implements IRepository, IClient {
-    get(query: any, variables?: any) {
-        throw new Error("Method not implemented.");
-    }
-    async readIte(query: DocumentNode): Promise<Record<string, any>> {
+    async get(query: DocumentNode) {
         const jsonData = parseQuery(query)
         const selection = jsonData.definitions[0].selections[0]
-        const { data, error } = await this.supabase
+        const selections = selection.selections?.map((selected)=>{
+            return selected.name
+        })
+
+        let dbQuery: Function
+        dbQuery = ()=> this.supabase
         .from(selection?.name)
-        .select(selection.arguments).eq(field, value)
+        .select()
 
-        return data as unknown as Promise<Record<string, any>[]>
-    }
-
-    async readItes(table: string, foreignTable?: {coll: string, key: string, fKey: string}, filters?: {prop: string, operator: any, value: string}[], range?: {lower: number, upper: number}, limit?: number) {
-        let query: Function
-        query = () => this.supabase.from(table).select()
-        if(foreignTable) {
-            query = () => this.supabase.from(table).select(`${foreignTable.key}, ${foreignTable.coll}(${foreignTable.fKey})`)
+        if(selections) {
+            dbQuery = ()=> dbQuery().select(...selections)
         }
-        if(filters) {
-            filters.forEach(filter => {
-                query = () => query().filter(filter.prop, filter.operator, filter.value)
-                //query = () => query().eq(filter.prop, filter.value)
+
+        if (selection.arguments) {
+            selection.arguments.forEach(args => {
+                if(args.value) {
+                    dbQuery = ()=> dbQuery().eq(args.name, args.value)
+                }
+                else if(args.values) {
+                    dbQuery = ()=> dbQuery().eq(args.name, args.values)
+                }
+                else if(args.fields) {
+                    args.fields.forEach(field => {
+                        dbQuery = ()=> dbQuery().eq(args.name, args.fields)
+                    });
+                }
             });
         }
-        if(range) {
-            query = query().range(range.lower, range.upper)
-        }
-        if(limit) {
-            query = query().limit(limit)
-        }
-        const { data, error } = await query()
-        return data as unknown as Promise<Record<string, any>[]>
+
+        return await dbQuery()
     }
 
-    post(query: any, data: any, variables?: any) {
-        throw new Error("Method not implemented.");
+    async post(query: DocumentNode) {
+        const jsonData = parseQuery(query)
+        const selection = jsonData.definitions[0].selections[0]
+        const items = selection.arguments?.map((arg)=>{
+            if(arg.value) {
+                return { [arg.name]: arg.value }
+            }
+            if(arg.values) {
+                return { [arg.name]: arg.values }
+            }
+            if(arg.fields) {
+                return { [arg.name]: arg.fields }
+            }
+        })
+
+        return await this.supabase
+        .from(selection?.name)
+        .insert(items)
     }
+
     async search(field: string, query: string, collName: string): Promise<any> {
         let i = 0
             const { data, error } = await this.supabase
@@ -78,13 +95,11 @@ export class SupabaseRepo implements IRepository, IClient {
     }
 
     async readItem(collName: string, field: string, value: string): Promise<Record<string, any>> {
-        const { data, error } = await this.supabase
+        return await this.supabase
         //.from(collName)
         //.select(*).eq(field, value)
         .from(collName)
         .select().eq(field, value)
-
-        return data as unknown as Promise<Record<string, any>[]>
     }
 
     /*async readItems(collName: string, column?: string, foreignTable?: Record<string, any>, columns?: string, val?: any, limit?: number): Promise<Record<string, any>[]> {
@@ -132,8 +147,7 @@ export class SupabaseRepo implements IRepository, IClient {
         if(limit) {
             query = query().limit(limit)
         }
-        const { data, error } = await query()
-        return data as unknown as Promise<Record<string, any>[]>
+        return await query()
     }
     async readQuery(tableName: string, ids: Array<string>) {
         return await this.supabase.rpc('select_items_by_ids', {
@@ -143,15 +157,15 @@ export class SupabaseRepo implements IRepository, IClient {
     
         // Process the data as needed
       }
-    async updateItem(newItem: any, oldItem: Record<string, any>, collName: string): Promise<void> {
-        const { data, error } = await this.supabase
+    async updateItem(newItem: any, oldItem: Record<string, any>, collName: string){
+        return await this.supabase
           .from(collName)
           .update(newItem)
           .match(oldItem)
     }
 
-    async deleteItem(collName: string, item: any): Promise<void> {
-        const { data, error } = await this.supabase
+    async deleteItem(collName: string, item: any) {
+        return await this.supabase
           .from(collName)
           .delete()
           .match(item)
@@ -159,11 +173,10 @@ export class SupabaseRepo implements IRepository, IClient {
     async find(op: Record<string, any>, collName: string,_sort?: string, _limit?: number) {
         Object.keys(op).forEach(async key => {
             let i = 0
-            const { data, error } = await this.supabase
+            return await this.supabase
             .from(collName)
             .select()
             .textSearch(key, `'${op[key]}'`)
-            return { data, error };
         });
         
     }
