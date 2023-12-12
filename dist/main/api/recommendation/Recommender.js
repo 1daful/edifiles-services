@@ -1,14 +1,15 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Recommender = void 0;
 const src_1 = require("gorsejs/src");
-const config_json_1 = __importDefault(require("../../utility/config.json"));
 const Repository_1 = require("../../model/Repository");
 class Recommender {
-    repo = new Repository_1.Repository();
+    constructor(config) {
+        this.config = config;
+        this.repo = new Repository_1.Repository(this.config.api.Supabase);
+    }
+    config;
+    repo;
     /*bookMedia: IMedia = new BookMedia("books");
     quoteMedia: IMedia = new QuoteMedia("quotes");
     musicMedia: IMedia = new MusicMedia("music");
@@ -16,7 +17,7 @@ class Recommender {
     //media: Media = new Media("collections")
     //client: IRepository = new Repository("Books");
     getClient(name) {
-        const clientOptions = config_json_1.default.api.Gorse.find(client => client.name === name);
+        const clientOptions = this.config.api.Gorse.find(client => client.name === name);
         if (clientOptions) {
             return new src_1.Gorse({
                 endpoint: clientOptions.id,

@@ -266,55 +266,6 @@ export type LayoutType = 'Grid' | 'Relative'
 
 export type ScrollType = 'Vertical' | 'Horizontal'
 
-export class DataType {
-    constructor(data: {
-        id?: any,
-        img?: string,
-        icon?: string,
-        overlay?: string,
-        meta: {
-            title: string,
-            description?: string,
-            created: string,
-            author: string,
-        },
-        actions: Record<string, Action>,
-        header?: {
-            icon?: string,
-            img?: string,
-            label: string
-        }[],
-        setHeader: boolean
-    }) {
-        this.id = data.id;
-        this.img = data.img;
-        this.icon = data.icon;
-        this.overlay = data.overlay;
-        this.meta = data.meta;
-        this.actions = data.actions;
-        this.header = data.header;
-        this.setHeader = data.setHeader;
-    }
-    id?: any;
-    img?: string;
-    icon?: string;
-    overlay?: string;
-    meta: {
-        title: string;
-        description?: string;
-        created: string;
-        author: string;
-    };
-    actions: Record<string, Action>;
-    header?: {
-        icon?: string;
-        img?: string;
-        label: string;
-    }[];
-    setHeader: boolean;
-
-}
-
 export type ActionString = 'Submit' | 'Filter' | 'Link' | 'Modal'
 
 export class Action {
@@ -499,6 +450,55 @@ export interface IView {
     viewport?: string
 }
 
+export class DataType {
+    constructor(data: {
+        id?: any,
+        img?: string,
+        icon?: string,
+        overlay?: string,
+        meta: {
+            title: string,
+            description?: string,
+            created: string,
+            author: string,
+        },
+        actions: Record<string, Action>,
+        header?: {
+            icon?: string,
+            img?: string,
+            label: string
+        }[],
+        setHeader: boolean
+    }) {
+        this.id = data.id;
+        this.img = data.img;
+        this.icon = data.icon;
+        this.overlay = data.overlay;
+        this.meta = data.meta;
+        this.actions = data.actions;
+        this.header = data.header;
+        this.setHeader = data.setHeader;
+    }
+    id?: any;
+    img?: string;
+    icon?: string;
+    overlay?: string;
+    meta: {
+        title: string;
+        description?: string;
+        created: string;
+        author: string;
+    };
+    actions: Record<string, Action>;
+    header?: {
+        icon?: string;
+        img?: string;
+        label: string;
+    }[];
+    setHeader: boolean;
+
+}
+
 export type ViewSection = View | DataType |FormType | VComponent | HTMLElement | NavList
 
 function insert(view: IView, ...content: ViewSection[]) {
@@ -647,7 +647,7 @@ export type Argument = {
 }
 
 export type Selection = {
-    arguments?: Argument[],
+    arguments?: Record<string, any>,
     name: string,
     selections?: Selection[]
 }

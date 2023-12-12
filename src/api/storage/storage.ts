@@ -1,7 +1,7 @@
-import { IEdiStorage } from "./IEdiStorage";
+import { IClient } from "../../clients/IClient";
 import { SupabaseStore } from "./SupabaseStore";
 
-export class EdiStorage implements IEdiStorage {
+export class EdiStorage implements IClient {
   storage = new SupabaseStore()
   async create(path: string): Promise<any> {
     return await this.storage.create(path);
@@ -13,11 +13,11 @@ export class EdiStorage implements IEdiStorage {
     return await this.storage.getFile(url);
   }
   
-  async upload(collName: string, path: string, file: any): Promise<any> {
+  async post(collName: string, path: string, file: any): Promise<any> {
     return await this.storage.upload(collName, path, file)
   }
 
-  async download(collName: string, path: string): Promise<any> {
+  async get(collName: string, path: string): Promise<any> {
     return await this.storage.download(collName, path)
   }
 }

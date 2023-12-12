@@ -1,12 +1,11 @@
 import { Client, useQuery, useMutation, ClientOptions, provideClient } from "@urql/vue";
 import { DocumentNode } from "graphql";
 import { IClient } from "./IClient";
-import { config } from "../config";
 
 export class UrqlClient implements IClient{
-    constructor(url: string) {
+    constructor(config: any) {
         provideClient(new Client({
-            url,
+            url: config.api.Urql.config.url,
             exchanges: config.api.Urql.config.exchanges
         }))
     }

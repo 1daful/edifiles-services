@@ -1,12 +1,63 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SupabaseRepo = void 0;
-const config_json_1 = __importDefault(require("../utility/config.json"));
 const supabase_js_1 = require("@supabase/supabase-js");
+const Query_1 = require("../utility/Query");
 class SupabaseRepo {
+    constructor(config) {
+        this.supabase = (0, supabase_js_1.createClient)(config.url, config.key, this.options);
+    }
+    async get(query) {
+        if (typeof query === 'string') {
+            let dbQuery = this.supabase.from(query).select();
+            return await dbQuery;
+        }
+        else {
+            const jsonData = (0, Query_1.parseQuery)(query);
+            const selection = jsonData.definitions[0].selections[0];
+            const selections = selection.selections?.map((selected) => selected.name);
+            const args = selection.arguments;
+            let dbQuery = this.supabase.from(selection?.name).select();
+            if (selections) {
+                dbQuery = this.supabase.from(selection?.name).select(selections.join());
+            }
+            if (args) {
+                Object.keys(args).forEach((argKey) => {
+                    console.log("ArgKey ", argKey);
+                    if (typeof args[argKey] === 'number' || typeof args[argKey] === 'string') {
+                        dbQuery = dbQuery.eq(argKey, args[argKey]);
+                    }
+                    if (typeof args[argKey] === 'object') {
+                        const op = args[argKey];
+                        Object.keys(op).forEach((opKey) => {
+                            dbQuery = dbQuery[opKey](argKey, op[opKey]);
+                        });
+                    }
+                });
+            }
+            return await dbQuery;
+        }
+    }
+    async post(query) {
+        const jsonData = (0, Query_1.parseQuery)(query);
+        const selection = jsonData.definitions[0]?.selections[0];
+        if (selection) {
+            const items = selection.arguments?.map((arg) => {
+                if (arg.value) {
+                    return { [arg.name]: arg.value };
+                }
+                if (arg.values) {
+                    return { [arg.name]: arg.values };
+                }
+                if (arg.fields) {
+                    return { [arg.name]: arg.fields };
+                }
+            });
+            return await this.supabase
+                .from(selection?.name)
+                .insert(items);
+        }
+    }
     async search(field, query, collName) {
         let i = 0;
         const { data, error } = await this.supabase
@@ -25,7 +76,7 @@ class SupabaseRepo {
             detectSessionInUrl: true
         }
     };
-    supabase = (0, supabase_js_1.createClient)(config_json_1.default.api.Supabase.url, config_json_1.default.api.Supabase.key, this.options);
+    supabase;
     async addItem(collName, items) {
         return await this.supabase
             .from(collName)
@@ -37,12 +88,11 @@ class SupabaseRepo {
             .insert(items);
     }
     async readItem(collName, field, value) {
-        const { data, error } = await this.supabase
+        return await this.supabase
             //.from(collName)
             //.select(*).eq(field, value)
             .from(collName)
             .select().eq(field, value);
-        return data;
     }
     /*async readItems(collName: string, column?: string, foreignTable?: Record<string, any>, columns?: string, val?: any, limit?: number): Promise<Record<string, any>[]> {
         if(foreignTable && val && column) {
@@ -88,24 +138,23 @@ class SupabaseRepo {
         if (limit) {
             query = query().limit(limit);
         }
-        const { data, error } = await query();
-        return data;
+        return await query();
     }
-    async readQuery(tableName, ids) {
-        return await this.supabase.rpc('select_items_by_ids', {
-            table_name: tableName,
-            ids: ids,
+    async readQuery(name, options) {
+        return await this.supabase.rpc(name, {
+            table_name: options.tableName,
+            ids: options.ids,
         });
         // Process the data as needed
     }
     async updateItem(newItem, oldItem, collName) {
-        const { data, error } = await this.supabase
+        return await this.supabase
             .from(collName)
             .update(newItem)
             .match(oldItem);
     }
     async deleteItem(collName, item) {
-        const { data, error } = await this.supabase
+        return await this.supabase
             .from(collName)
             .delete()
             .match(item);
@@ -113,13 +162,69 @@ class SupabaseRepo {
     async find(op, collName, _sort, _limit) {
         Object.keys(op).forEach(async (key) => {
             let i = 0;
-            const { data, error } = await this.supabase
+            return await this.supabase
                 .from(collName)
                 .select()
                 .textSearch(key, `'${op[key]}'`);
-            return { data, error };
         });
     }
 }
 exports.SupabaseRepo = SupabaseRepo;
+async function get(query, config, options) {
+    let supabase = (0, supabase_js_1.createClient)(config.url, config.key, options);
+    const jsonData = (0, Query_1.parseQuery)(query);
+    const selection = jsonData.definitions[0].selections[0];
+    const selections = selection.selections?.map((selected) => {
+        return selected.name;
+    });
+    const args = selection.arguments;
+    let dbQuery;
+    if (selections) {
+        dbQuery = () => supabase.from(selection?.name).select(selections.join());
+    }
+    else {
+        dbQuery = () => supabase.from(selection?.name).select();
+    }
+    if (args) {
+        Object.keys(args).forEach(argKey => {
+            if (typeof args[argKey] === 'number' || typeof args[argKey] === 'string') {
+                dbQuery = () => dbQuery().eq(args[argKey]);
+            }
+            if (typeof args[argKey] === 'object') {
+                const op = args[argKey];
+                Object.keys(op).forEach(opKey => {
+                    //this.supabase.from('').select().gte()
+                    /*switch (opKey) {
+                        case "gt":
+                            this.supabase.from(selection?.name).select().gt(argKey, op[opKey])
+                            break;
+                    
+                        default:
+                            break;
+                    }*/
+                    let opu = 'gt';
+                    dbQuery = dbQuery()[opu](argKey, op[opKey]);
+                });
+            }
+            /*if (argKey === 'filter') {
+                const filterOp = selection.arguments[argKey]
+
+                Object.keys(filterOp).forEach(op => {
+                    dbQuery = ()=> dbQuery()[op]
+                })
+            }
+            if(Array(selection.arguments[argKey])) {
+                selection.arguments[argKey].forEach((arg: any) => {
+                    dbQuery = ()=> dbQuery().eq(argKey, arg)
+                });
+            }
+            else if(typeof selection.arguments[argKey] === 'object') {
+                args.fields.forEach(field => {
+                    dbQuery = ()=> dbQuery().eq(args.name, args.fields)
+                });
+            }*/
+        });
+    }
+    return await dbQuery();
+}
 //# sourceMappingURL=SupabaseRepo.js.map

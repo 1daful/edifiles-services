@@ -1,64 +1,73 @@
 import { IRepository } from "../model/IRepository";
-import { config } from "../config";
 import { createClient } from '@supabase/supabase-js';
 import { IClient } from "../clients/IClient";
 import { parseQuery } from "../utility/Query";
 import { DocumentNode } from "graphql";
 
 export class SupabaseRepo implements IRepository, IClient {
-    async get(query: DocumentNode) {
-        const jsonData = parseQuery(query)
-        const selection = jsonData.definitions[0].selections[0]
-        const selections = selection.selections?.map((selected)=>{
-            return selected.name
-        })
-
-        let dbQuery: Function
-        dbQuery = ()=> this.supabase
-        .from(selection?.name)
-        .select()
-
-        if(selections) {
-            dbQuery = ()=> dbQuery().select(...selections)
-        }
-
-        if (selection.arguments) {
-            selection.arguments.forEach(args => {
-                if(args.value) {
-                    dbQuery = ()=> dbQuery().eq(args.name, args.value)
-                }
-                else if(args.values) {
-                    dbQuery = ()=> dbQuery().eq(args.name, args.values)
-                }
-                else if(args.fields) {
-                    args.fields.forEach(field => {
-                        dbQuery = ()=> dbQuery().eq(args.name, args.fields)
-                    });
-                }
-            });
-        }
-
-        return await dbQuery()
+    constructor(config: any) {
+        this.supabase = createClient(config.url, config.key, this.options);
     }
+async get(query: DocumentNode | string) {
+    if (typeof query === 'string') {
+        let dbQuery = this.supabase.from(query).select();
+        return await dbQuery;
+    }
+    else {
+        const jsonData = parseQuery(query);
+        const selection = jsonData.definitions[0].selections[0];
+      
+        const selections = selection.selections?.map((selected) => selected.name);
+      
+        const args = selection.arguments;
+      
+        let dbQuery = this.supabase.from(selection?.name).select();
+      
+        if (selections) {
+          dbQuery = this.supabase.from(selection?.name).select(selections.join());
+        }
+      
+        if (args) {
+          Object.keys(args).forEach((argKey) => {
+              console.log("ArgKey ", argKey)
+            if (typeof args[argKey] === 'number' || typeof args[argKey] === 'string') {
+              dbQuery = dbQuery.eq(argKey, args[argKey]);
+            }
+      
+            if (typeof args[argKey] === 'object') {
+              const op = args[argKey];
+              Object.keys(op).forEach((opKey) => {
+                  dbQuery = dbQuery[opKey](argKey, op[opKey])
+                  
+              });
+            }
+          });
+        }
+      
+        return await dbQuery;
+    }
+}
+
 
     async post(query: DocumentNode) {
         const jsonData = parseQuery(query)
-        const selection = jsonData.definitions[0].selections[0]
-        const items = selection.arguments?.map((arg)=>{
-            if(arg.value) {
-                return { [arg.name]: arg.value }
-            }
-            if(arg.values) {
-                return { [arg.name]: arg.values }
-            }
-            if(arg.fields) {
-                return { [arg.name]: arg.fields }
-            }
-        })
-
-        return await this.supabase
-        .from(selection?.name)
-        .insert(items)
+        const selection = jsonData.definitions[0]?.selections[0]
+        if(selection) {
+            const items = selection.arguments?.map((arg: { value: any; name: any; values: any; fields: any; })=>{
+                if(arg.value) {
+                    return { [arg.name]: arg.value }
+                }
+                if(arg.values) {
+                    return { [arg.name]: arg.values }
+                }
+                if(arg.fields) {
+                    return { [arg.name]: arg.fields }
+                }
+            })
+            return await this.supabase
+            .from(selection?.name)
+            .insert(items)
+        }
     }
 
     async search(field: string, query: string, collName: string): Promise<any> {
@@ -80,7 +89,7 @@ export class SupabaseRepo implements IRepository, IClient {
         }
       }
 
-    supabase = createClient(config.api.Supabase.url, config.api.Supabase.key, this.options);
+    supabase
 
     async addItem(collName: string, items: Record<string, any>[]): Promise<any> {
         return await this.supabase
@@ -149,10 +158,10 @@ export class SupabaseRepo implements IRepository, IClient {
         }
         return await query()
     }
-    async readQuery(tableName: string, ids: Array<string>) {
-        return await this.supabase.rpc('select_items_by_ids', {
-        table_name: tableName,
-        ids: ids,
+    async readQuery(name: string, options?: any) {
+        return await this.supabase.rpc(name, {
+        table_name: options.tableName,
+        ids: options.ids,
         });
     
         // Process the data as needed
@@ -180,4 +189,72 @@ export class SupabaseRepo implements IRepository, IClient {
         });
         
     }
+}
+
+
+
+async function get(query: DocumentNode, config: any, options: any) {
+    let supabase = createClient(config.url, config.key, options);
+    const jsonData = parseQuery(query)
+    const selection = jsonData.definitions[0].selections[0]
+    
+    const selections = selection.selections?.map((selected)=>{
+        return selected.name
+    })
+
+    const args = selection.arguments
+
+    let dbQuery: Function
+
+    if (selections) {
+        dbQuery = ()=> supabase.from(selection?.name).select(selections.join())
+    }
+    else {
+        dbQuery = () => supabase.from(selection?.name).select();
+    }
+
+    if (args) {
+        Object.keys(args).forEach(argKey => {
+            if(typeof args[argKey] === 'number' || typeof args[argKey] === 'string') {
+                dbQuery = ()=> dbQuery().eq(args[argKey])
+            }
+
+            if(typeof args[argKey] === 'object') {
+                const op = args[argKey]
+                Object.keys(op).forEach(opKey => {
+                    //this.supabase.from('').select().gte()
+                    /*switch (opKey) {
+                        case "gt":
+                            this.supabase.from(selection?.name).select().gt(argKey, op[opKey])
+                            break;
+                    
+                        default:
+                            break;
+                    }*/
+                    let opu = 'gt'
+                    dbQuery = dbQuery()[opu](argKey, op[opKey])
+                });
+            }
+
+            /*if (argKey === 'filter') {
+                const filterOp = selection.arguments[argKey]
+
+                Object.keys(filterOp).forEach(op => {
+                    dbQuery = ()=> dbQuery()[op]
+                })
+            }
+            if(Array(selection.arguments[argKey])) {
+                selection.arguments[argKey].forEach((arg: any) => {
+                    dbQuery = ()=> dbQuery().eq(argKey, arg)
+                });
+            }
+            else if(typeof selection.arguments[argKey] === 'object') {
+                args.fields.forEach(field => {
+                    dbQuery = ()=> dbQuery().eq(args.name, args.fields)
+                });
+            }*/
+        });
+    }
+
+    return await dbQuery()
 }

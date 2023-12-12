@@ -276,6 +276,7 @@ export const config = {
 
         Urql: {
           config: {
+            url: "",
             exchanges: [cacheExchange, fetchExchange]
           }
         }

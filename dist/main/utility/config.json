@@ -257,6 +257,11 @@
         "Meilisearch": {
             "host": "https://ms-3c59deb7e96a-1832.sfo.meilisearch.io",
             "apiKey": "d449e47884967a7a8267ec683fce149df78e3f8e"
+        },
+        "Urql": {
+            "config": {
+                "exchanges": []
+            }
         }
     },
     "genres": {},

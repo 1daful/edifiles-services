@@ -6,5 +6,4 @@ export class RestClient extends Client{
     constructor(requestDetails: any) {
         super(new FetchClient(requestDetails))
     }
-
 }

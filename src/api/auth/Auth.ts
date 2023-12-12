@@ -12,6 +12,11 @@ export interface IAuth {
 }
 
 export class EAuth implements IAuth {
+    constructor(config: any) {
+        this.getAuth = auth(config);
+        this.auth = this.getAuth()
+    }
+    getAuth
     async updateUser(user: any): Promise<any> {
         return await this.auth.updateUser(user)
     }
@@ -23,7 +28,7 @@ export class EAuth implements IAuth {
     async resetPassword(email: string): Promise<any> {
         return await this.auth.resetPassword(email)
     }
-    auth: IAuth = auth;
+    auth: IAuth;
     async signUp(user: any, data: any): Promise<any> {
         return await this.auth.signUp(user, data)
     }

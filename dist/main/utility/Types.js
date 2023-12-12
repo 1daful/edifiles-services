@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Layout = exports.PageView = exports.SectionView = exports.TabView = exports.View = exports.FormType = exports.QuestionType = exports.Form = exports.Table = exports.Calendar = exports.Text = exports.Comment = exports.Picture = exports.Book = exports.Product = exports.Music = exports.Blog = exports.Notification = exports.Video = exports.Action = exports.DataType = exports.NavList = exports.isActionString = exports.isTabType = exports.isIView = exports.isComponent = exports.isVComponent = exports.isNavList = exports.isQuestionType = exports.isDataType = exports.isView = exports.isType = void 0;
+exports.Layout = exports.PageView = exports.SectionView = exports.TabView = exports.View = exports.DataType = exports.FormType = exports.QuestionType = exports.Form = exports.Table = exports.Calendar = exports.Text = exports.Comment = exports.Picture = exports.Book = exports.Product = exports.Music = exports.Blog = exports.Notification = exports.Video = exports.Action = exports.NavList = exports.isActionString = exports.isTabType = exports.isIView = exports.isComponent = exports.isVComponent = exports.isNavList = exports.isQuestionType = exports.isDataType = exports.isView = exports.isType = void 0;
 function isType(obj, classType) {
     return obj instanceof classType;
 }
@@ -63,27 +63,6 @@ class NavList {
     navType;
 }
 exports.NavList = NavList;
-class DataType {
-    constructor(data) {
-        this.id = data.id;
-        this.img = data.img;
-        this.icon = data.icon;
-        this.overlay = data.overlay;
-        this.meta = data.meta;
-        this.actions = data.actions;
-        this.header = data.header;
-        this.setHeader = data.setHeader;
-    }
-    id;
-    img;
-    icon;
-    overlay;
-    meta;
-    actions;
-    header;
-    setHeader;
-}
-exports.DataType = DataType;
 class Action {
     constructor(action) {
         Object.assign(this, action);
@@ -230,6 +209,27 @@ class FormType {
     content;
 }
 exports.FormType = FormType;
+class DataType {
+    constructor(data) {
+        this.id = data.id;
+        this.img = data.img;
+        this.icon = data.icon;
+        this.overlay = data.overlay;
+        this.meta = data.meta;
+        this.actions = data.actions;
+        this.header = data.header;
+        this.setHeader = data.setHeader;
+    }
+    id;
+    img;
+    icon;
+    overlay;
+    meta;
+    actions;
+    header;
+    setHeader;
+}
+exports.DataType = DataType;
 function insert(view, ...content) {
     view.sections?.push(...content);
 }

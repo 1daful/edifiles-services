@@ -4,10 +4,10 @@ import { SupabaseRepo } from "./SupabaseRepo";
 
 export class Repository implements IRepository {
     collName: string;
-    constructor(collName?: string) {
+    constructor(config: any, collName?: string) {
       this.collName = collName || ''
        //this.db = new Pouchdb(collName)
-      this.db = new SupabaseRepo()
+      this.db = new SupabaseRepo(config)
     }
   async readQuery(tableName: string, ids: string[]) {
     return await this.db.readQuery(tableName, ids)
@@ -20,19 +20,19 @@ export class Repository implements IRepository {
   }
     db:IRepository
 
-    changeDB(db: database, collName: string) {
+    changeDB(db: database, collName: string, config: any) {
       switch (db) {
         case 'pouchdb':
           //return new Pouchdb(collName)
           break;
 
         case 'supabase':
-          return new SupabaseRepo()
+          return new SupabaseRepo(config)
 
         default:
           break;
       }
-      return new SupabaseRepo()
+      return new SupabaseRepo(config)
     }
 
     async addItem(collName: string, param: Record<string, any>) {

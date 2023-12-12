@@ -1,21 +1,24 @@
-import config from "../../utility/config.json";
+
 import { createClient, SignInWithPasswordCredentials, User, UserAttributes } from "@supabase/supabase-js";
 import { IAuth } from "../auth/Auth";
 class SupabaseAuth implements IAuth {
-  constructor() {
+  constructor(config: {
+    url: string,
+    key: string,
+    options: any
+  }) {
     //if(SupabaseAuth._instance)
+    this.supabase = createClient(config.url,
+      config.key,
+      config.options);
+      this.auth = this.supabase.auth
   }
 
-    private static _instance?: SupabaseAuth
+    private static instance?: SupabaseAuth
 
-    static get Instance() {
-      return this._instance || new SupabaseAuth()
-    }
+    supabase
 
-    supabase = createClient(config.api.Supabase.url,
-      config.api.Supabase.key,
-      config.api.Supabase.options);
-    auth = this.supabase.auth
+    auth
 
     authenticated: boolean = false
 
@@ -147,4 +150,18 @@ class SupabaseAuth implements IAuth {
 
 }
 
-export const auth = SupabaseAuth.Instance
+function getInstance(config: {
+  url: string,
+  key: string,
+  options: any
+}) {
+  let instance: IAuth;
+  return function () {
+    if (!instance) {
+      instance = new SupabaseAuth(config);
+    }
+    return instance;
+  };
+}
+
+export const auth = getInstance

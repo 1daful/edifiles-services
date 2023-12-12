@@ -1,21 +1,16 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
-const config_json_1 = __importDefault(require("../../utility/config.json"));
 const supabase_js_1 = require("@supabase/supabase-js");
 class SupabaseAuth {
-    constructor() {
+    constructor(config) {
         //if(SupabaseAuth._instance)
+        this.supabase = (0, supabase_js_1.createClient)(config.url, config.key, config.options);
+        this.auth = this.supabase.auth;
     }
-    static _instance;
-    static get Instance() {
-        return this._instance || new SupabaseAuth();
-    }
-    supabase = (0, supabase_js_1.createClient)(config_json_1.default.api.Supabase.url, config_json_1.default.api.Supabase.key, config_json_1.default.api.Supabase.options);
-    auth = this.supabase.auth;
+    static instance;
+    supabase;
+    auth;
     authenticated = false;
     //jwt?: string
     async signUp(userCred) {
@@ -133,5 +128,14 @@ class SupabaseAuth {
         }
     }
 }
-exports.auth = SupabaseAuth.Instance;
+function getInstance(config) {
+    let instance;
+    return function () {
+        if (!instance) {
+            instance = new SupabaseAuth(config);
+        }
+        return instance;
+    };
+}
+exports.auth = getInstance;
 //# sourceMappingURL=SupabaseAuth.js.map

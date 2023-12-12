@@ -3,6 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EAuth = void 0;
 const SupabaseAuth_1 = require("../auth/SupabaseAuth");
 class EAuth {
+    constructor(config) {
+        this.getAuth = (0, SupabaseAuth_1.auth)(config);
+        this.auth = this.getAuth();
+    }
+    getAuth;
     async updateUser(user) {
         return await this.auth.updateUser(user);
     }
@@ -12,7 +17,7 @@ class EAuth {
     async resetPassword(email) {
         return await this.auth.resetPassword(email);
     }
-    auth = SupabaseAuth_1.auth;
+    auth;
     async signUp(user, data) {
         return await this.auth.signUp(user, data);
     }

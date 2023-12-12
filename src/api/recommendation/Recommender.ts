@@ -1,10 +1,14 @@
 import { Feedback, DateTime } from 'gorsejs/src/interfaces';
 import { Gorse } from "gorsejs/src";
-import config from "../../utility/config.json"
 import { Repository } from '../../model/Repository';
 
 export class Recommender {
-    repo = new Repository()
+    constructor(config: any) {
+        this.config = config
+        this.repo = new Repository(this.config.api.Supabase)
+    }
+    config: any
+    repo
     /*bookMedia: IMedia = new BookMedia("books");
     quoteMedia: IMedia = new QuoteMedia("quotes");
     musicMedia: IMedia = new MusicMedia("music");
@@ -14,7 +18,7 @@ export class Recommender {
     //client: IRepository = new Repository("Books");
 
     getClient(name: string): Gorse<string> | undefined {
-        const clientOptions = config.api.Gorse.find(client => client.name === name);
+        const clientOptions = this.config.api.Gorse.find(client => client.name === name);
         if(clientOptions) {
             return new Gorse({
                 endpoint: clientOptions.id,

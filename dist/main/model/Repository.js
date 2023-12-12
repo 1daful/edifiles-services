@@ -5,10 +5,10 @@ exports.Repository = void 0;
 const SupabaseRepo_1 = require("./SupabaseRepo");
 class Repository {
     collName;
-    constructor(collName) {
+    constructor(config, collName) {
         this.collName = collName || '';
         //this.db = new Pouchdb(collName)
-        this.db = new SupabaseRepo_1.SupabaseRepo();
+        this.db = new SupabaseRepo_1.SupabaseRepo(config);
     }
     async readQuery(tableName, ids) {
         return await this.db.readQuery(tableName, ids);
@@ -20,17 +20,17 @@ class Repository {
         return this.db.find(filters, collName);
     }
     db;
-    changeDB(db, collName) {
+    changeDB(db, collName, config) {
         switch (db) {
             case 'pouchdb':
                 //return new Pouchdb(collName)
                 break;
             case 'supabase':
-                return new SupabaseRepo_1.SupabaseRepo();
+                return new SupabaseRepo_1.SupabaseRepo(config);
             default:
                 break;
         }
-        return new SupabaseRepo_1.SupabaseRepo();
+        return new SupabaseRepo_1.SupabaseRepo(config);
     }
     async addItem(collName, param) {
         return await this.db.addItem(collName, param);

@@ -14,7 +14,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Utility = exports.Request = exports.Resource = exports.Response = exports.Axiosi = exports.Repository = exports.EdiStorage = exports.EAuth = exports.Recommender = exports.Search = exports.Mailer = void 0;
+exports.SDKClient = exports.RestClient = exports.cacheExchange = exports.fetchExchange = exports.GraphqlClient = exports.parseQuery = exports.Utility = exports.Request = exports.Resource = exports.Response = exports.Axiosi = exports.Repository = exports.EdiStorage = exports.EAuth = exports.Recommender = exports.Search = exports.Mailer = void 0;
 var Mailer_1 = require("./api/Email/Mailer");
 Object.defineProperty(exports, "Mailer", { enumerable: true, get: function () { return Mailer_1.Mailer; } });
 var Search_1 = require("./api/Search/Search");
@@ -38,4 +38,14 @@ var Request_1 = require("./api/Request");
 Object.defineProperty(exports, "Request", { enumerable: true, get: function () { return Request_1.Request; } });
 var Utility_1 = require("./utility/Utility");
 Object.defineProperty(exports, "Utility", { enumerable: true, get: function () { return Utility_1.Utility; } });
+var Query_1 = require("./utility/Query");
+Object.defineProperty(exports, "parseQuery", { enumerable: true, get: function () { return Query_1.parseQuery; } });
+var GraphqlClient_1 = require("./clients/GraphqlClient");
+Object.defineProperty(exports, "GraphqlClient", { enumerable: true, get: function () { return GraphqlClient_1.GraphqlClient; } });
+Object.defineProperty(exports, "fetchExchange", { enumerable: true, get: function () { return GraphqlClient_1.fetchExchange; } });
+Object.defineProperty(exports, "cacheExchange", { enumerable: true, get: function () { return GraphqlClient_1.cacheExchange; } });
+var RestClient_1 = require("./clients/RestClient");
+Object.defineProperty(exports, "RestClient", { enumerable: true, get: function () { return RestClient_1.RestClient; } });
+var SDKClient_1 = require("./clients/SDKClient");
+Object.defineProperty(exports, "SDKClient", { enumerable: true, get: function () { return SDKClient_1.SDKClient; } });
 //# sourceMappingURL=index.js.map
