@@ -39,8 +39,8 @@ class ListMonk {
                 subject: format.subject,
                 lists: format.lists,
                 from_email: format.address,
-                type: format.type,
-                content_type: format.contentType,
+                type: format.type, /*"regular" | "optin"*/
+                content_type: format.contentType, /*"richtext" | "html" | "markdown" | "plain"*/
                 body: format.body,
                 //altbody: format.altbody,
                 //send_at: format.date,
@@ -91,7 +91,7 @@ class ListMonk {
             data: {
                 name: data.name,
                 email: data.address,
-                status: data.status,
+                status: data.status, /*"enabled" | "disabled" | "blocked"*/
                 lists: data.lists,
                 attribs: data.attributes,
                 preconfirm_subscriptions: data.preconfirmedSub

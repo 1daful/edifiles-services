@@ -13,10 +13,10 @@ class EdiStorage {
     async getFile(url) {
         return await this.storage.getFile(url);
     }
-    async upload(collName, path, file) {
+    async post(collName, path, file) {
         return await this.storage.upload(collName, path, file);
     }
-    async download(collName, path) {
+    async get(collName, path) {
         return await this.storage.download(collName, path);
     }
 }
