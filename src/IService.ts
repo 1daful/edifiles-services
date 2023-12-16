@@ -1,3 +1,3 @@
 export interface IService {
-    main(...args: any): void
+    init(...args: any): void
 }
