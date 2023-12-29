@@ -30,7 +30,7 @@ class ListMonk {
         "data": true
     };
     campaign = (format) => {
-        new Resource_1.Resource(this, {
+        return new Resource_1.Resource(this, {
             baseUrl: "/api/campaigns",
             name: "",
             params: {},
@@ -43,7 +43,7 @@ class ListMonk {
                 content_type: format.contentType, /*"richtext" | "html" | "markdown" | "plain"*/
                 body: format.body,
                 //altbody: format.altbody,
-                //send_at: format.date,
+                send_at: format.date,
                 messenger: format.messenger,
                 template_id: format.templateKey,
                 tags: format.tags
@@ -130,6 +130,10 @@ class ListMonk {
         }*/
         //let respData: Record<string, any>[] = this.subscriber.getData(resData.items);
         return resData;
+    }
+    schedule(url, format) {
+        const run = this.campaign(format);
+        run.URL;
     }
 }
 exports.ListMonk = ListMonk;

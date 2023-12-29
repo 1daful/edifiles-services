@@ -33,7 +33,7 @@ export class ListMonk implements IMediaApi {
     }
     
     campaign = (format: EmailType) => {
-        new Resource(this,
+        return new Resource(this,
             {
                 baseUrl: "/api/campaigns",
                 name: "",
@@ -47,7 +47,7 @@ export class ListMonk implements IMediaApi {
                     content_type: format.contentType, /*"richtext" | "html" | "markdown" | "plain"*/
                     body: format.body,
                     //altbody: format.altbody,
-                    //send_at: format.date,
+                    send_at: format.date,
                     messenger: format.messenger,
                     template_id: format.templateKey,	
                     tags: format.tags
@@ -146,4 +146,8 @@ export class ListMonk implements IMediaApi {
         return resData
     }
 
+    schedule(url: string, format: EmailType) {
+        const run = this.campaign(format)
+        run.URL
+    }
 }

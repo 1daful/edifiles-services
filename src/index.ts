@@ -1,3 +1,4 @@
+export { Scheduler } from './api/Schedule/Schedule'
 export { Mailer } from './api/Email/Mailer'
 export { Search } from './api/Search/Search'
 export { Recommender } from './api/recommendation/Recommender';

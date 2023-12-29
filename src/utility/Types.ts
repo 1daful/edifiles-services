@@ -121,6 +121,7 @@ export type EmailType = {
   templateKey: string,
   html: string,
   data?: any,
+  date: Date
   cc?: EmailAddress[],
   bcc?: EmailAddress[],
   attachments: Attachment[] | Base64Attachment[],

@@ -146,7 +146,7 @@ export class Resource {
      * this method appends request parameters to api base parameters
      * @param type type of the resource to retrieve
      */
-    async getBaseParam(){
+    getBaseParam(){
       const obj = {
         header: {},
         baseParams: {
@@ -158,9 +158,9 @@ export class Resource {
             Object.assign(obj.baseParams, apiBaseParams);
             //NetworkLocal.test("obj.params", this.api.getBaseParams(), this.api.constructor.name)
             Object.assign(obj.baseParams, this.getRequestParam(this.request.params))
-            const baseURL = await this.getBaseURL() || ""
+            const baseURL = this.getBaseURL() || ""
             obj.baseParams.baseUrl = baseURL
-            obj.header = (await this.api.getBaseParams()).header
+            obj.header = this.api.getBaseParams().header
             //NetworkLocal.test("config obj: ", obj)
             return obj
         }
@@ -172,10 +172,10 @@ export class Resource {
         return obj
     }
 
-    async getBaseURL() {
+    getBaseURL() {
         //const ApiBaseURL = this.api.BASE_URL + this.request.baseUrl;
         try {
-            const apiBaseUrl = await this.api.getBaseUrl();
+            const apiBaseUrl = this.api.getBaseUrl();
             const baseUrl = apiBaseUrl + this.request.baseUrl;
             return baseUrl
         }

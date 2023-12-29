@@ -14,7 +14,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SDKClient = exports.RestClient = exports.cacheExchange = exports.fetchExchange = exports.GraphqlClient = exports.parseQuery = exports.Utility = exports.Request = exports.Resource = exports.Response = exports.Axiosi = exports.Repository = exports.EdiStorage = exports.EAuth = exports.Recommender = exports.Search = exports.Mailer = void 0;
+exports.SDKClient = exports.RestClient = exports.cacheExchange = exports.fetchExchange = exports.GraphqlClient = exports.parseQuery = exports.Utility = exports.Request = exports.Resource = exports.Response = exports.Axiosi = exports.Repository = exports.EdiStorage = exports.EAuth = exports.Recommender = exports.Search = exports.Mailer = exports.Scheduler = void 0;
+var Schedule_1 = require("./api/Schedule/Schedule");
+Object.defineProperty(exports, "Scheduler", { enumerable: true, get: function () { return Schedule_1.Scheduler; } });
 var Mailer_1 = require("./api/Email/Mailer");
 Object.defineProperty(exports, "Mailer", { enumerable: true, get: function () { return Mailer_1.Mailer; } });
 var Search_1 = require("./api/Search/Search");

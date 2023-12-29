@@ -1,18 +1,17 @@
-import { ApiClient } from "../utility/apiClient";
+import { IClient } from "../clients/IClient";
 import { Resource } from "./Resource";
 import axios, { AxiosBasicCredentials, AxiosRequestConfig } from 'axios';
 //import { NetworkLocal } from "./network";
 //import { networkInterfaces } from "os";
 
-export class Axiosi implements ApiClient {
-    /*constructor (resource?: Resource) {
-        if (resource) {
-            this.resource = resource;
-        }
-    }*/
+export class Axiosi implements IClient {
+    constructor (details: any) {
+        this.url = details
+    }
 
     message =  'Axios request successful!!!';
     config: AxiosRequestConfig = {}
+    url: string
 
     async get (resource: Resource, auth?: AxiosBasicCredentials) {
             //try {
@@ -20,32 +19,30 @@ export class Axiosi implements ApiClient {
                     this.resource.setRequestParam(params);
                 }*/
                 //const baseUrl = await this.resource.getBaseURL()
-                const baseUrl = resource.URL
+                
                 //console.log('Axios baseUrl:', baseUrl)
-                this.config.headers = (await resource.getBaseParam()).header;
-                this.config.params = (await resource.getBaseParam()).baseParams
+                this.config.headers = await resource.getBaseParam().header;
+                this.config.params = await resource.getBaseParam().baseParams
                 this.config.auth = auth
                 //NetworkLocal.test("Calling with Axios config: ", this.config.params)
                 //NetworkLocal.test("Config headers: ", this.config.headers)
-                if (baseUrl) {
-                    return await axios.get(baseUrl, this.config)
-                    /*.catch((error) => {
-                        if (error.request) {
+                return await axios.get(this.url, this.config)
+                /*.catch((error) => {
+                    if (error.request) {
 
-                            const data = NetworkLocal.test(this.message)
-                            if (response){
-                                return this.resource.getResponse(response.data);
-                            }
-                            else {
-                                data
-                            }
+                        const data = NetworkLocal.test(this.message)
+                        if (response){
+                            return this.resource.getResponse(response.data);
                         }
-                    })*/
-                    //NetworkLocal.test("response: ", response, "resp")
-                    //const res = resource.getResponse(response.data)
-                    //NetworkLocal.test("axios res: ", res, "res")
-                    //return res
-                }
+                        else {
+                            data
+                        }
+                    }
+                })*/
+                //NetworkLocal.test("response: ", response, "resp")
+                //const res = resource.getResponse(response.data)
+                //NetworkLocal.test("axios res: ", res, "res")
+                //return res
                 //return this.resource.response.dataList;
             //}
             /*catch (error) {
@@ -60,15 +57,12 @@ export class Axiosi implements ApiClient {
             //this.resource.setRequestParam(data);
 
             try {
-                const baseUrl = await resource.URL
-                this.config.params = (await resource.getBaseParam()).baseParams;
+                this.config.params = resource.getBaseParam().baseParams;
                 this.config.auth = auth
-                if (baseUrl) {
-                    return await axios.post(baseUrl, resource.request.data, this.config)
-                    //NetworkLocal.test(this.message);
-                    //return resource.getResponse(response.data);
-                }
-                    //return this.resource.response.dataList;
+                return await axios.post(this.url, resource.request.data, this.config)
+                //NetworkLocal.test(this.message);
+                //return resource.getResponse(response.data);
+                //return this.resource.response.dataList;
             }
             catch (err) {
                 console.error(err);
