@@ -2,7 +2,22 @@ import { cacheExchange, fetchExchange } from "@urql/vue";
 export const config = {
     "title": "Edifeeds",
     "baseUrl": "/",
-    "backURL": "http://localhost:2000/api",
+    "backEndApi": {
+      baseUrl: "http://localhost:2000/api",
+      baseConfig: {},
+      requests: {
+        schedule(params: Record<string, any>, data: Record<string, any>) {
+          return {
+            url: '/schedule',
+            params: params,
+            data: data
+          }
+        },
+        callback: {
+          url: '/call'
+        }
+      }
+  },
     "logo": "../logo.png",
     "email": {
       "bounceAddress": "admin@bounce.edifeeds.com",

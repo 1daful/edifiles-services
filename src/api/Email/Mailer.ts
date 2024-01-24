@@ -4,10 +4,9 @@ import { EmailAddress } from '../../utility/Types';
 import { Zeptomail } from './Zeptomail';
 import { Axiosi } from '../Axiosi';
 import config from "../../utility/config.json"
-import { userSignUp } from "../../viewResolver/userViewResolver";
 
 export class Mailer {
-    client = new Axiosi()
+    client = new Axiosi(config)
     sender = config.email.address
     host = "smtp.zeptomail.com"
     messenger = new ListMonk()

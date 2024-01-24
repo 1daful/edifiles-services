@@ -1,14 +1,16 @@
 import { IRepository } from "../model/IRepository";
 import { createClient } from '@supabase/supabase-js';
 import { IClient } from "../clients/IClient";
-import { parseQuery } from "../utility/Query";
+import { parseQuery, filter } from "../utility/Query";
 import { DocumentNode } from "graphql";
+import { QueryType } from "../utility/Types";
+import { isDocumentNode } from "../utility/Utility";
 
 export class SupabaseRepo implements IRepository, IClient {
     constructor(config: any) {
         this.supabase = createClient(config.url, config.key, this.options);
     }
-async get(query: DocumentNode | string) {
+async ReadItemsWithDocumentNode(query: DocumentNode | string) {
     if (typeof query === 'string') {
         let dbQuery = this.supabase.from(query).select();
         return await dbQuery;
@@ -47,7 +49,6 @@ async get(query: DocumentNode | string) {
         return await dbQuery;
     }
 }
-
 
     async post(query: DocumentNode) {
         const jsonData = parseQuery(query)
@@ -146,7 +147,7 @@ async get(query: DocumentNode | string) {
         }
         if(filters) {
             filters.forEach(filter => {
-                query = () => query().filter(filter.prop, filter.operator, filter.value)
+                query = () => query().filter()
                 //query = () => query().eq(filter.prop, filter.value)
             });
         }
@@ -188,6 +189,46 @@ async get(query: DocumentNode | string) {
             .textSearch(key, `'${op[key]}'`)
         });
         
+    }
+
+
+    async readWithQueryType(args: QueryType) {
+        let query
+        query = this.supabase.from(args.name).select()
+        if(args.columns) {
+            query = this.supabase.from(args.name).select(args.columns.join())
+        }
+        if(args.filter) {
+            args.filter.forEach((filter: { op: string | number; args: any; }) => {
+                query = query[filter.op](...filter.args)              
+            });
+        }
+        return await query
+    }
+    /*async readItms(args: QueryType) {
+        let query = this.supabase.from(args.name).select();
+    
+        if (args.columns) {
+            query = query.select(args.columns.join());
+        }
+    
+        if (args.filter) {
+            args.filter.forEach(filter => {
+                if (filter.op === 'eq') {
+                    query = query.eq('age', 20);
+                }
+                // Add other filter operations as needed
+            });
+        }
+    
+        return await query;
+    }*/
+    
+    async get(query: QueryType | DocumentNode) {
+        if(isDocumentNode(query)) {
+            return await this.ReadItemsWithDocumentNode(query)
+        }
+        else return await this.readWithQueryType
     }
 }
 

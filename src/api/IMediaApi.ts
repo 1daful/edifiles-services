@@ -6,7 +6,7 @@ import { Resource } from "./Resource.js";
  * The interface for all media classes
  */
 export interface IMediaApi {
-    client: ApiClient;
+    //client: ApiClient;
     resources: Resource[];
 
     //apiFormat: ApiFormat;

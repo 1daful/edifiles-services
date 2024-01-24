@@ -26,5 +26,5 @@ export class Scheduler implements IClient{
         return this.client.post(resource.request.data, config)
     }
     client: IClient
-    url: string
+    //url: string
 }

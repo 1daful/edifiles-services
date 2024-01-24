@@ -1,7 +1,7 @@
 export interface IClient{
 
-    get(query: any, variables?: any): any
+    get(request: any): any
 
-    post(query: any, data: any, variables?: any): any
+    post(request: any): any
 
 }

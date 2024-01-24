@@ -16,15 +16,8 @@ export class Client{
         const dataView =  new Type(data)
         return dataView
     }*/
-    async get(name?: string, parameters?: any) {
-        let data
-        if (parameters) {
-            data = await this.client.get(parameters)
-        }
-        else if (name) {
-            data = await this.client.get(name)
-        }
-        else throw new Error("No argument given")
+    async get(request: any) {
+        let data = await this.client.get(request)
         return data
     }
 
@@ -39,16 +32,8 @@ export class Client{
         const dataView =  new Type(data)
         return dataView
     }*/
-    async post<T>(name: string, postData: any, parameters?: any) {
-        let data
-        if (name) {
-            data = await this.client.get(name)
-        }
-        else if (parameters) {
-            data = await this.client.post(postData, parameters)
-        }
-        else throw new Error("No argument given");
-        
+    async post(request: any) {
+        let data = await this.client.get(request)
         return data
     }
 

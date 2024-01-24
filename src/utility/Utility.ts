@@ -1,16 +1,17 @@
-export class Utility {
+import { DocumentNode } from "graphql";
+import { QueryType } from "./Types";
 
-    handler = {
+export const handler = {
         get: function(obj: Record<string, any>, prop: string) {
             return prop in obj ? obj[prop]: 'defValue'
         }
     };
 
-    getDefaultProxy(target: Record<string, any>) {
-        return new Proxy(target, this.handler);
+    export function getDefaultProxy(target: Record<string, any>) {
+        return new Proxy(target, handler);
     }
 
-    getDefault(obj1: Record<string, any>, obj2: Record<string, any>) {
+    export function getDefault(obj1: Record<string, any>, obj2: Record<string, any>) {
         const targetObj = obj2
         for (const key in obj1) {
             if (!targetObj[key]) {
@@ -25,7 +26,7 @@ export class Utility {
      * @param bigObj the first object
      * @param smallObj the second object
      */
-    joinObject(bigObj: Record<string, any>, smallObj: Record<string, any>) {
+     export function joinObject(bigObj: Record<string, any>, smallObj: Record<string, any>) {
         const obj: Record<string, any> = {};
         Object.keys(bigObj).forEach(key => {
             if(bigObj[key]){
@@ -40,7 +41,11 @@ export class Utility {
         return obj;
     }
 
-    getUrl(url: string) {
+    export function isObject(obj: Record<string, any>){
+        return obj instanceof Object && obj.constructor === Object;
+    }
+    
+    export function getUrl(url: string) {
           const ret = url.split("&").reduce(function(res, param) {
               let [key, val] = param.split("=");
               res[key] = val;
@@ -50,11 +55,11 @@ export class Utility {
             //let params = token.searchParams
         
       }
-      isType<T>(obj: any): obj is T {
+
+      export function isType<T>(obj: any): obj is T {
         const propertiesToCheck: (keyof T)[] = Object.keys(obj) as (keyof T)[];
         return propertiesToCheck.every(prop => typeof obj[prop] !== 'undefined');
       }
-      
-      
-
-}
+      export function isDocumentNode(query: any): query is DocumentNode {
+        return query.definitions !== undefined
+      }

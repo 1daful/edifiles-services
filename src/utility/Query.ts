@@ -1,5 +1,6 @@
-import { ArgumentNode, DocumentNode, FieldNode, ListValueNode, ObjectFieldNode, ObjectValueNode, OperationDefinitionNode, ValueNode } from "graphql";
-import { Definition, Query, Selection } from "./Types";
+import { DocumentNode, FieldNode, ListValueNode, ObjectFieldNode, ValueNode } from "graphql";
+import { Definition, OpType, Query, Selection } from "./Types";
+import { isObject } from "./Utility";
 
 const getArgumentValues = (dArgs: ValueNode[]) => {
     console.log("D_ARGS: ", dArgs)
@@ -123,4 +124,42 @@ export const parseSelections = (selections: FieldNode[]) => {
         }
     });
     return selects
+}
+
+const d = {
+    dt() {}
+}
+d.dt
+
+export function query(args: any) {
+    Object.keys(args).forEach((key)=> {
+        if(isObject(args[key])) {
+            
+        }
+        switch (key) {
+            case "data":
+                
+                break;
+            case "columns":
+                
+                break;
+        
+            case "filter":
+                args[key]
+                break;
+            default:
+                break;
+        }
+        
+    })
+}
+
+export function filter(op: OpType, ...args: any[]) {
+    return {
+        op,
+        args
+    }
+}
+export function foreignColumns(table: string, columns: string[]) {
+    return `${table}(${columns.join()})`
 }

@@ -1,13 +1,11 @@
 //import { emailReq } from '../../utility/Types';
 import config from "../../utility/config.json";
-import { ApiClient } from '../../utility/apiClient';
 import { Resource } from '../Resource';
 import { IMediaApi } from './../IMediaApi';
-import { Axiosi } from "../Axiosi";
 import { EmailAddress, EmailType } from "../../utility/Types";
 
 export class ListMonk implements IMediaApi {
-    client: ApiClient = new Axiosi();
+    //client: ApiClient = new Axiosi();
     resources: Resource[] = [];
 
     transact = (format: EmailType) => {
