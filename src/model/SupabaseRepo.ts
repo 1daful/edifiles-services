@@ -10,7 +10,7 @@ export class SupabaseRepo implements IRepository, IClient {
     constructor(config: any) {
         this.supabase = createClient(config.url, config.key, this.options);
     }
-async ReadItemsWithDocumentNode(query: DocumentNode | string) {
+async readItemsWithDocumentNode(query: DocumentNode | string) {
     if (typeof query === 'string') {
         let dbQuery = this.supabase.from(query).select();
         return await dbQuery;
@@ -50,7 +50,7 @@ async ReadItemsWithDocumentNode(query: DocumentNode | string) {
     }
 }
 
-    async post(query: DocumentNode) {
+    async postWithDocumentNode(query: DocumentNode) {
         const jsonData = parseQuery(query)
         const selection = jsonData.definitions[0]?.selections[0]
         if(selection) {
@@ -193,7 +193,7 @@ async ReadItemsWithDocumentNode(query: DocumentNode | string) {
 
 
     async readWithQueryType(args: QueryType) {
-        let query
+        let query: any
         query = this.supabase.from(args.name).select()
         if(args.columns) {
             query = this.supabase.from(args.name).select(args.columns.join())
@@ -203,6 +203,11 @@ async ReadItemsWithDocumentNode(query: DocumentNode | string) {
                 query = query[filter.op](...filter.args)              
             });
         }
+        return await query
+    }
+    async postWithQueryType(args: QueryType) {
+        let query: any
+        query = this.supabase.from(args.name).insert(args.data)
         return await query
     }
     /*async readItms(args: QueryType) {
@@ -226,9 +231,15 @@ async ReadItemsWithDocumentNode(query: DocumentNode | string) {
     
     async get(query: QueryType | DocumentNode) {
         if(isDocumentNode(query)) {
-            return await this.ReadItemsWithDocumentNode(query)
+            return await this.readItemsWithDocumentNode(query)
         }
         else return await this.readWithQueryType
+    }
+    async post(query: QueryType | DocumentNode) {
+        if(isDocumentNode(query)) {
+            return await this.postWithDocumentNode(query)
+        }
+        else return await this.postWithQueryType(query)
     }
 }
 

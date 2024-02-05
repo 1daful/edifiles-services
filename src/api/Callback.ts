@@ -4,19 +4,19 @@ import { ApiConfig } from "../utility/Types";
 import { Request } from "./Request";
 
 export class Callback {
-    constructor(apiConfig: ApiConfig, url?: string) {
-        if(url) {
-            config.backEndApi.baseUrl = url
+    constructor(reqConfig: ApiConfig, backEndApi?: ApiConfig) {
+        if(backEndApi) {
+            config.backEndApi = backEndApi
         }
         this.client = new RestClient(config.backEndApi)
-        this.apiConfig = apiConfig
+        this.reqConfig = reqConfig
     }
     client: RestClient
-    apiConfig
+    reqConfig
 
     get(backEndURL: string, request: Request) {
-        const reqUrl = this.apiConfig.baseUrl + request.url
-        const reqConfig = this.apiConfig
+        const reqUrl = this.reqConfig.baseUrl + request.url
+        const reqConfig = this.reqConfig
         Object.assign(reqConfig, request.config)
 
         const newReq: Request = {
@@ -30,9 +30,9 @@ export class Callback {
         this.client.get(req)
     }
 
-    post(backEndRequest: Request) {
-        const reqUrl = this.apiConfig.baseUrl + backEndRequest.data?.url
-        const reqConfig = this.apiConfig
+    fetch(backEndRequest: Request) {
+        const reqUrl = this.reqConfig.baseUrl + backEndRequest.data?.url
+        const reqConfig = this.reqConfig.baseConfig
         Object.assign(reqConfig, backEndRequest.data?.config)
 
         const newReq: Request = {

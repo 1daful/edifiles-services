@@ -33,7 +33,7 @@ export class Client{
         return dataView
     }*/
     async post(request: any) {
-        let data = await this.client.get(request)
+        let data = await this.client.post(request)
         return data
     }
 

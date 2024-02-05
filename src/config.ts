@@ -13,8 +13,12 @@ export const config = {
             data: data
           }
         },
-        callback: {
-          url: '/call'
+        callback(params: Record<string, any>, data: Record<string, any>) {
+          return {
+            url: '/call',
+            params: params,
+            data: data
+          }
         }
       }
   },

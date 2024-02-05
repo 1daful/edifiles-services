@@ -1,5 +1,5 @@
 
-import { createClient, SignInWithPasswordCredentials, User, UserAttributes } from "@supabase/supabase-js";
+import { createClient, SignInWithPasswordCredentials, User, UserAttributes, UserResponse } from "@supabase/supabase-js";
 import { IAuth } from "../auth/Auth";
 class SupabaseAuth implements IAuth {
   constructor(config: {
@@ -79,10 +79,10 @@ class SupabaseAuth implements IAuth {
         const { error } = await this.auth.signOut()
         return error
     }
-    async getUser() {
-      const { data, error} = await this.auth.getUser()
-      return { user: data.user, error}
+    async getUser(): Promise<UserResponse> {
+      return await this.auth.getUser()
     }
+
     async isAuthenticated() {
       //let sess
       /*this.auth.onAuthStateChange((event, session) => {
@@ -136,10 +136,10 @@ class SupabaseAuth implements IAuth {
     }
 
     async startSession() {
-      return (await this.auth.getSession())
+      return await this.auth.getSession()
     }
     
-    isNewUser(user: User) {
+    isNew(user: User) {
       if(user.user_metadata.last_signin === user.user_metadata.created_at) {
         return true
       }

@@ -4,7 +4,8 @@ export interface IAuth {
     signUp(user: any, data: any): Promise<any>
     login(id: string, user?: any): any
     logout(): void
-    getUser(): any
+    getUser(): Promise<any>
+    isNew(user: any): Boolean
     isAuthenticated(): Promise<boolean>
     resetPassword(email: string): Promise<any>
     updateUser(user: any): Promise<any>
@@ -43,6 +44,10 @@ export class EAuth implements IAuth {
         await this.auth.getUser()
     }
     
+    isNew(user: any) {
+        return this.auth.isNew(user)
+    }
+
     async isAuthenticated(): Promise<boolean> {
         return await this.auth.isAuthenticated()
     }
