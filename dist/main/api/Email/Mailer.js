@@ -9,7 +9,7 @@ const Zeptomail_1 = require("./Zeptomail");
 const Axiosi_1 = require("../Axiosi");
 const config_json_1 = __importDefault(require("../../utility/config.json"));
 class Mailer {
-    client = new Axiosi_1.Axiosi();
+    client = new Axiosi_1.Axiosi(config_json_1.default);
     sender = config_json_1.default.email.address;
     host = "smtp.zeptomail.com";
     messenger = new Listmonk_1.ListMonk();

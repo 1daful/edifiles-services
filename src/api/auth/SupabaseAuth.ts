@@ -1,7 +1,7 @@
 
 import { createClient, SignInWithPasswordCredentials, User, UserAttributes, UserResponse } from "@supabase/supabase-js";
 import { IAuth } from "../auth/Auth";
-class SupabaseAuth implements IAuth {
+export class SupabaseAuth implements IAuth {
   constructor(config: {
     url: string,
     key: string,
@@ -93,7 +93,7 @@ class SupabaseAuth implements IAuth {
       })
       console.log("session: ", sess)
       return this.authenticated*/
-      if ((await this.startSession()).data.session?.user) {
+      if ((await this.getSession()).data.session?.user) {
         return true
       }
       else return false
@@ -135,7 +135,7 @@ class SupabaseAuth implements IAuth {
       //const { user, session, error } = await this.auth.signIn({ email }, {shouldCreateUser: false})
     }
 
-    async startSession() {
+    async getSession() {
       return await this.auth.getSession()
     }
     

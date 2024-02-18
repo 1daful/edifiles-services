@@ -7,9 +7,8 @@ exports.ListMonk = void 0;
 //import { emailReq } from '../../utility/Types';
 const config_json_1 = __importDefault(require("../../utility/config.json"));
 const Resource_1 = require("../Resource");
-const Axiosi_1 = require("../Axiosi");
 class ListMonk {
-    client = new Axiosi_1.Axiosi();
+    //client: ApiClient = new Axiosi();
     resources = [];
     transact = (format) => {
         return new Resource_1.Resource(this, {

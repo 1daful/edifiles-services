@@ -225,11 +225,26 @@ export type Query = {
 export type QueryType = {
   name: string,
   data: any,
-  filter: {
+  /*filter: {
     op: OpType,
     args: any
-  }[],
-  columns: any[]
+  }[],*/
+  filters?: QueryFilter[],
+  modifiers?: QueryModifier[],
+  columns?: any[]
 }
 
-export type OpType = 'eq' | 'lt' | 'gt' | 'lte' | 'gte'
+export type OpType = 'eq' | 'lt' | 'gt' | 'lte' | 'gte' | 'like' | 'ilike' | 'is'
+
+export type QueryFilter = {
+  op: OpType;
+  col: string;
+  val: string | number;
+};
+
+export type modType = 'order' | 'limit' | 'range'
+
+export type QueryModifier = {
+  op: modType
+  val?: string | number | (string | number)[];
+}

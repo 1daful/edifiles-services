@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.auth = void 0;
+exports.auth = exports.SupabaseAuth = void 0;
 const supabase_js_1 = require("@supabase/supabase-js");
 class SupabaseAuth {
     constructor(config) {
@@ -66,8 +66,7 @@ class SupabaseAuth {
         return error;
     }
     async getUser() {
-        const { data, error } = await this.auth.getUser();
-        return { user: data.user, error };
+        return await this.auth.getUser();
     }
     async isAuthenticated() {
         //let sess
@@ -79,7 +78,7 @@ class SupabaseAuth {
         })
         console.log("session: ", sess)
         return this.authenticated*/
-        if ((await this.startSession()).data.session?.user) {
+        if ((await this.getSession()).data.session?.user) {
             return true;
         }
         else
@@ -116,10 +115,10 @@ class SupabaseAuth {
         });
         //const { user, session, error } = await this.auth.signIn({ email }, {shouldCreateUser: false})
     }
-    async startSession() {
-        return (await this.auth.getSession());
+    async getSession() {
+        return await this.auth.getSession();
     }
-    isNewUser(user) {
+    isNew(user) {
         if (user.user_metadata.last_signin === user.user_metadata.created_at) {
             return true;
         }
@@ -128,6 +127,7 @@ class SupabaseAuth {
         }
     }
 }
+exports.SupabaseAuth = SupabaseAuth;
 function getInstance(config) {
     let instance;
     return function () {

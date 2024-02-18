@@ -159,6 +159,10 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
         }
         return await query()
     }
+
+    read() {
+
+    }
     async readQuery(name: string, options?: any) {
         return await this.supabase.rpc(name, {
         table_name: options.tableName,
@@ -192,23 +196,51 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
     }
 
 
-    async readWithQueryType(args: QueryType) {
+    async readWithQueryType(args: QueryType, options?: Record<string, any>) {
         let query: any
         query = this.supabase.from(args.name).select()
-        if(args.columns) {
-            query = this.supabase.from(args.name).select(args.columns.join())
+        if (options) {
+            query = this.supabase.from(args.name).select("*", options)
         }
-        if(args.filter) {
+        if(args.columns) {
+            query = this.supabase.from(args.name).select(args.columns.join(), options)
+        }
+        /*if(args.filter) {
             args.filter.forEach((filter: { op: string | number; args: any; }) => {
-                query = query[filter.op](...filter.args)              
+                query = query[filter.op](...filter.args)             
+            });
+        }*/
+        if(args.filters) {
+            args.filters.forEach((filter) => {
+                query = query.filter(filter.col, filter.op, filter.val)         
             });
         }
+
+        if(args.modifiers) {
+            args.modifiers.forEach((modifier) => {
+                if (Array.isArray(modifier.val)) query = query[modifier.op](...modifier.val)
+                else query = query[modifier.op]()   
+            });
+        }
+
         return await query
     }
     async postWithQueryType(args: QueryType) {
         let query: any
         query = this.supabase.from(args.name).insert(args.data)
         return await query
+    }
+
+    async deleteWithQueryType(args: QueryType) {
+        return await this.supabase
+          .from(args.name)
+          .delete().match(args.data)
+    }
+    async delete(query: QueryType | DocumentNode) {
+        if(isDocumentNode(query)) {
+            return 
+        }
+        else return await this.deleteWithQueryType(query)
     }
     /*async readItms(args: QueryType) {
         let query = this.supabase.from(args.name).select();
@@ -229,11 +261,14 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
         return await query;
     }*/
     
-    async get(query: QueryType | DocumentNode) {
+    async get(query: QueryType | DocumentNode | string) {
+        if (typeof query === "string") {
+            return this.supabase.from(query).select()
+        }
         if(isDocumentNode(query)) {
             return await this.readItemsWithDocumentNode(query)
         }
-        else return await this.readWithQueryType
+        else return await this.readWithQueryType(query)
     }
     async post(query: QueryType | DocumentNode) {
         if(isDocumentNode(query)) {
@@ -241,9 +276,35 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
         }
         else return await this.postWithQueryType(query)
     }
+
+    count(query: QueryType | DocumentNode) {
+        this.get(query)
+    }
+
+    async postWithTransaction(...queries: QueryType[]) {
+        /*queries.forEach(async (query) => {
+            try {
+                    await this.post(query)
+                    // Transactions successful
+              
+              } catch (error) {
+                // Rollback previous insert if necessary
+                if (error.message.includes(query.name)) {
+                    await this.delete(query)
+                }
+              
+                // Handle the error
+              }
+        })*/
+        const items = queries.map((query) => {
+            return {
+                name: query.name,
+                data: query.data
+            }
+        })
+          this.supabase.rpc('transAdd', items)
+    }
 }
-
-
 
 async function get(query: DocumentNode, config: any, options: any) {
     let supabase = createClient(config.url, config.key, options);

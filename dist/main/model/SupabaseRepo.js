@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SupabaseRepo = void 0;
 const supabase_js_1 = require("@supabase/supabase-js");
 const Query_1 = require("../utility/Query");
+const Utility_1 = require("../utility/Utility");
 class SupabaseRepo {
     constructor(config) {
         this.supabase = (0, supabase_js_1.createClient)(config.url, config.key, this.options);
+        this.supabase.from('service').select().filter('id', 'eq', 3);
     }
-    async get(query) {
+    async readItemsWithDocumentNode(query) {
         if (typeof query === 'string') {
             let dbQuery = this.supabase.from(query).select();
             return await dbQuery;
@@ -38,7 +40,7 @@ class SupabaseRepo {
             return await dbQuery;
         }
     }
-    async post(query) {
+    async postWithDocumentNode(query) {
         const jsonData = (0, Query_1.parseQuery)(query);
         const selection = jsonData.definitions[0]?.selections[0];
         if (selection) {
@@ -128,7 +130,7 @@ class SupabaseRepo {
         }
         if (filters) {
             filters.forEach(filter => {
-                query = () => query().filter(filter.prop, filter.operator, filter.value);
+                query = () => query().filter();
                 //query = () => query().eq(filter.prop, filter.value)
             });
         }
@@ -139,6 +141,8 @@ class SupabaseRepo {
             query = query().limit(limit);
         }
         return await query();
+    }
+    read() {
     }
     async readQuery(name, options) {
         return await this.supabase.rpc(name, {
@@ -167,6 +171,113 @@ class SupabaseRepo {
                 .select()
                 .textSearch(key, `'${op[key]}'`);
         });
+    }
+    async readWithQueryType(args, options) {
+        let query;
+        query = this.supabase.from(args.name).select();
+        if (options) {
+            query = this.supabase.from(args.name).select("*", options);
+        }
+        if (args.columns) {
+            query = this.supabase.from(args.name).select(args.columns.join(), options);
+        }
+        /*if(args.filter) {
+            args.filter.forEach((filter: { op: string | number; args: any; }) => {
+                query = query[filter.op](...filter.args)
+            });
+        }*/
+        if (args.filters) {
+            args.filters.forEach((filter) => {
+                query = query.filter(filter.col, filter.op, filter.val);
+            });
+        }
+        if (args.modifiers) {
+            args.modifiers.forEach((modifier) => {
+                if (Array.isArray(modifier.val))
+                    query = query[modifier.op](...modifier.val);
+                else
+                    query = query[modifier.op]();
+            });
+        }
+        return await query;
+    }
+    async postWithQueryType(args) {
+        let query;
+        query = this.supabase.from(args.name).insert(args.data);
+        return await query;
+    }
+    async deleteWithQueryType(args) {
+        return await this.supabase
+            .from(args.name)
+            .delete().match(args.data);
+    }
+    async delete(query) {
+        if ((0, Utility_1.isDocumentNode)(query)) {
+            return;
+        }
+        else
+            return await this.deleteWithQueryType(query);
+    }
+    /*async readItms(args: QueryType) {
+        let query = this.supabase.from(args.name).select();
+    
+        if (args.columns) {
+            query = query.select(args.columns.join());
+        }
+    
+        if (args.filter) {
+            args.filter.forEach(filter => {
+                if (filter.op === 'eq') {
+                    query = query.eq('age', 20);
+                }
+                // Add other filter operations as needed
+            });
+        }
+    
+        return await query;
+    }*/
+    async get(query) {
+        if (typeof query === "string") {
+            return this.supabase.from(query).select();
+        }
+        if ((0, Utility_1.isDocumentNode)(query)) {
+            return await this.readItemsWithDocumentNode(query);
+        }
+        else
+            return await this.readWithQueryType(query);
+    }
+    async post(query) {
+        if ((0, Utility_1.isDocumentNode)(query)) {
+            return await this.postWithDocumentNode(query);
+        }
+        else
+            return await this.postWithQueryType(query);
+    }
+    count(query) {
+        this.get(query);
+    }
+    async postWithTransaction(...queries) {
+        /*queries.forEach(async (query) => {
+            try {
+                    await this.post(query)
+                    // Transactions successful
+              
+              } catch (error) {
+                // Rollback previous insert if necessary
+                if (error.message.includes(query.name)) {
+                    await this.delete(query)
+                }
+              
+                // Handle the error
+              }
+        })*/
+        const items = queries.map((query) => {
+            return {
+                name: query.name,
+                data: query.data
+            };
+        });
+        this.supabase.rpc('transAdd', items);
     }
 }
 exports.SupabaseRepo = SupabaseRepo;

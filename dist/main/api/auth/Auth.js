@@ -8,6 +8,9 @@ class EAuth {
         this.auth = this.getAuth();
     }
     getAuth;
+    async getSession() {
+        return await this.auth.getSession();
+    }
     async updateUser(user) {
         return await this.auth.updateUser(user);
     }
@@ -22,13 +25,16 @@ class EAuth {
         return await this.auth.signUp(user, data);
     }
     async login(id, user) {
-        await this.auth.login(id, user);
+        return await this.auth.login(id, user);
     }
     async logout() {
-        await this.auth.logout();
+        return await this.auth.logout();
     }
     async getUser() {
-        await this.auth.getUser();
+        return await this.auth.getUser();
+    }
+    isNew(user) {
+        return this.auth.isNew(user);
     }
     async isAuthenticated() {
         return await this.auth.isAuthenticated();

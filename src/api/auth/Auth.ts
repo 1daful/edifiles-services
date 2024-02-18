@@ -1,3 +1,4 @@
+import { UserResponse } from "@supabase/supabase-js";
 import { auth } from "../auth/SupabaseAuth"
 export interface IAuth {
     auth: any;
@@ -10,6 +11,7 @@ export interface IAuth {
     resetPassword(email: string): Promise<any>
     updateUser(user: any): Promise<any>
     updateCred(key: string, val: string): Promise<any>
+    getSession(): Promise<any>
 }
 
 export class EAuth implements IAuth {
@@ -18,6 +20,11 @@ export class EAuth implements IAuth {
         this.auth = this.getAuth()
     }
     getAuth
+
+    async getSession() {
+        return await this.auth.getSession()
+    }
+
     async updateUser(user: any): Promise<any> {
         return await this.auth.updateUser(user)
     }
@@ -35,13 +42,13 @@ export class EAuth implements IAuth {
     }
 
     async login(id: string, user?: any) {
-        await this.auth.login(id, user)
+        return await this.auth.login(id, user)
     }
     async logout() {
-        await this.auth.logout()
+        return await this.auth.logout()
     }
-    async getUser(): Promise<any> {
-        await this.auth.getUser()
+    async getUser(): Promise<UserResponse> {
+        return await this.auth.getUser()
     }
     
     isNew(user: any) {

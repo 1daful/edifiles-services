@@ -61,5 +61,5 @@ export const handler = {
         return propertiesToCheck.every(prop => typeof obj[prop] !== 'undefined');
       }
       export function isDocumentNode(query: any): query is DocumentNode {
-        return query.definitions !== undefined
+        return query?.definitions !== undefined
       }

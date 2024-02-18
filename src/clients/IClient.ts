@@ -4,4 +4,6 @@ export interface IClient{
 
     post(request: any): any
 
+    postWithTransaction?(request: any): any
+
 }
