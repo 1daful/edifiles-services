@@ -302,7 +302,7 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
                 data: query.data
             }
         })
-          this.supabase.rpc('transAdd', items)
+          return await this.supabase.rpc('transAdd', items)
     }
 }
 
