@@ -261,7 +261,7 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
         return await query;
     }*/
     
-    async get(query: QueryType | DocumentNode | string) {
+    async get(query: QueryType | QueryType[] | DocumentNode | string) {
         if (typeof query === "string") {
             return this.supabase.from(query).select()
         }
@@ -273,6 +273,9 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
     async post(query: QueryType | DocumentNode) {
         if(isDocumentNode(query)) {
             return await this.postWithDocumentNode(query)
+        }
+        else if (Array.isArray(query)) {
+            return await this.postWithTransaction(query)
         }
         else return await this.postWithQueryType(query)
     }
