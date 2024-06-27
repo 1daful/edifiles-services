@@ -284,7 +284,7 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
         this.get(query)
     }
 
-    async postWithTransaction(...queries: QueryType[]) {
+    async postWithTransaction(queries: QueryType[]) {
         /*queries.forEach(async (query) => {
             try {
                     await this.post(query)
