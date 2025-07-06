@@ -1,6 +1,5 @@
 export { IRepository } from "../model/IRepository";
 export { ApiClient } from "../utility/apiClient";
-import { Request } from "../api/Request";
 
 export type MediaType = {
   id: string
@@ -59,7 +58,7 @@ export type ConfigType = {
 export type ApiConfig = {
     baseUrl: string,
     baseConfig: Record<string, any>
-    requests: Record<string, Request | Function>
+    requests?: Record<string, Request | Function>
 }
 
 export type CollectionType = {
@@ -115,6 +114,19 @@ type InlineImage = {
 type Attachment = { 
   file_cache_key: string, 
   name: string
+}
+
+export type Resource = {
+    get: {
+      response: any[],
+      transform?: (item: any) => {},
+      cacheKey?: string
+    }
+    post: {
+      response: any[],
+      transform?: (item: any) => {},
+      cacheKey?: string
+    }
 }
 
 export type emailReq = "single" | "single_template" | "batch_template"
@@ -248,3 +260,5 @@ export type QueryModifier = {
   op: modType
   val?: string | number | (string | number)[];
 }
+
+export { FileOptions, TransformOptions } from '@supabase/storage-js';

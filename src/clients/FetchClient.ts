@@ -1,5 +1,5 @@
 import { IClient } from "./IClient"
-import { Request } from "../api/Request";
+import { ApiRequest } from "../api/Request";
 
 export class FetchClient implements IClient{
     constructor(url: string) {
@@ -8,7 +8,7 @@ export class FetchClient implements IClient{
     
     baseUrl: string
 
-    async get(request: Request) {
+    async get(request: ApiRequest) {
         const result = await fetch(`${this.baseUrl}/${request.url}`, request.config)
         const data = await result.json()
         let error
@@ -24,7 +24,7 @@ export class FetchClient implements IClient{
         }
     }
 
-    async post(request: Request) {
+    async post(request: ApiRequest) {
         let g: RequestInit = {}
         const result = await fetch(request.url, {
             method: 'POST',

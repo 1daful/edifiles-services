@@ -3,6 +3,7 @@ import { SupabaseStore } from "./SupabaseStore";
 
 export class EdiStorage implements IClient {
   storage = new SupabaseStore()
+  
   async create(path: string): Promise<any> {
     return await this.storage.create(path);
   }

@@ -14,7 +14,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SDKClient = exports.RestClient = exports.cacheExchange = exports.fetchExchange = exports.GraphqlClient = exports.parseQuery = exports.getUrl = exports.joinObject = exports.isType = exports.isObject = exports.Resource = exports.Response = exports.Axiosi = exports.SupabaseRepo = exports.Repository = exports.EdiStorage = exports.EAuth = exports.Recommender = exports.Search = exports.Mailer = exports.Scheduler = exports.Callback = void 0;
+exports.SDKClient = exports.RestClient = exports.cacheExchange = exports.fetchExchange = exports.GraphqlClient = exports.parseQuery = exports.getUrl = exports.joinObject = exports.isType = exports.isObject = exports.Request = exports.Resource = exports.Response = exports.Axiosi = exports.SupabaseRepo = exports.Repository = exports.EdiStorage = exports.EAuth = exports.Recommender = exports.Search = exports.Mailer = exports.Scheduler = exports.Callback = void 0;
 var Callback_1 = require("./api/Callback");
 Object.defineProperty(exports, "Callback", { enumerable: true, get: function () { return Callback_1.Callback; } });
 var Schedule_1 = require("./api/Schedule/Schedule");
@@ -40,6 +40,8 @@ var Response_1 = require("./api/Response");
 Object.defineProperty(exports, "Response", { enumerable: true, get: function () { return Response_1.Response; } });
 var Resource_1 = require("./api/Resource");
 Object.defineProperty(exports, "Resource", { enumerable: true, get: function () { return Resource_1.Resource; } });
+var Request_1 = require("./api/Request");
+Object.defineProperty(exports, "Request", { enumerable: true, get: function () { return Request_1.Request; } });
 var Utility_1 = require("./utility/Utility");
 Object.defineProperty(exports, "isObject", { enumerable: true, get: function () { return Utility_1.isObject; } });
 Object.defineProperty(exports, "isType", { enumerable: true, get: function () { return Utility_1.isType; } });

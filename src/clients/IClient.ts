@@ -1,9 +1,10 @@
+import { ApiRequest } from "../api/Request";
 export interface IClient{
 
-    get(request: any): any
+    get(request: ApiRequest, options?: any): any
 
-    post(request: any): any
+    post(request: ApiRequest, options?: any): any
 
-    postWithTransaction?(request: any): any
+    postWithTransaction?(request: ApiRequest, options?: any): any
 
 }

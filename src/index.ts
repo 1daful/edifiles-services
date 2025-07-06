@@ -11,7 +11,7 @@ export { Axiosi } from "./api/Axiosi";
 export * from './utility/Types'
 export { Response } from "./api/Response";
 export { Resource } from "./api/Resource";
-export { Request } from "./api/Request";
+export { ApiRequest } from "./api/Request";
 export { isObject, isType, joinObject, getUrl } from "./utility/Utility";
 export { parseQuery } from "./utility/Query";
 export { GraphqlClient, fetchExchange, cacheExchange } from "./clients/GraphqlClient";

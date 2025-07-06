@@ -1,5 +1,5 @@
 import { DocumentNode } from "graphql";
-import { QueryType } from "./Types";
+import { ApiRequest } from "../api/Request";
 
 export const handler = {
         get: function(obj: Record<string, any>, prop: string) {
@@ -63,3 +63,27 @@ export const handler = {
       export function isDocumentNode(query: any): query is DocumentNode {
         return query?.definitions !== undefined
       }
+      
+export function getAndCache(query: ApiRequest, get: Function) {
+  const queryString = JSON.stringify(query);
+   const cacheKey = `yt_${queryString.replace(/[^a-zA-Z0-9]/g, '_')}`;
+  const cached = localStorage.getItem(cacheKey);
+  const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
+  const now = Date.now();
+
+  if (cached) {
+    try {
+      const { data, timestamp } = JSON.parse(cached);
+      if (now - timestamp < CACHE_DURATION) {
+        return data;
+      }
+    } catch (e) {
+      console.warn('Cache parse error', e);
+    }
+  }
+
+  const data =  get()
+  
+  localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
+  return data
+}

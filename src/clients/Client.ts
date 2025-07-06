@@ -1,3 +1,4 @@
+import { ApiRequest } from "../api/Request";
 import { IClient } from "./IClient";
 
 export class Client{
@@ -16,7 +17,7 @@ export class Client{
         const dataView =  new Type(data)
         return dataView
     }*/
-    async get(request: any) {
+    async get(request: ApiRequest) {
         let data = await this.client.get(request)
         return data
     }

@@ -7,7 +7,6 @@ const Utility_1 = require("../utility/Utility");
 class SupabaseRepo {
     constructor(config) {
         this.supabase = (0, supabase_js_1.createClient)(config.url, config.key, this.options);
-        this.supabase.from('service').select().filter('id', 'eq', 3);
     }
     async readItemsWithDocumentNode(query) {
         if (typeof query === 'string') {
@@ -250,13 +249,16 @@ class SupabaseRepo {
         if ((0, Utility_1.isDocumentNode)(query)) {
             return await this.postWithDocumentNode(query);
         }
+        else if (Array.isArray(query)) {
+            return await this.postWithTransaction(query);
+        }
         else
             return await this.postWithQueryType(query);
     }
     count(query) {
         this.get(query);
     }
-    async postWithTransaction(...queries) {
+    async postWithTransaction(queries) {
         /*queries.forEach(async (query) => {
             try {
                     await this.post(query)
@@ -277,7 +279,7 @@ class SupabaseRepo {
                 data: query.data
             };
         });
-        this.supabase.rpc('transAdd', items);
+        return await this.supabase.rpc('transAdd', items);
     }
 }
 exports.SupabaseRepo = SupabaseRepo;
