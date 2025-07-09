@@ -1,5 +1,5 @@
 import { DocumentNode } from "graphql";
-import { ApiRequest } from "../api/Request";
+import { ApiRequest } from "../utility/Types";
 
 export const handler = {
         get: function(obj: Record<string, any>, prop: string) {
@@ -46,11 +46,11 @@ export const handler = {
     }
     
     export function getUrl(url: string) {
-          const ret = url.split("&").reduce(function(res, param) {
+          const ret = url.split("&").reduce(function(res: Record<string, any>, param) {
               let [key, val] = param.split("=");
               res[key] = val;
               return res
-            }, {})
+            }, {} as Record<string, any>)
             return ret as Record<string, any>
             //let params = token.searchParams
         
@@ -64,26 +64,26 @@ export const handler = {
         return query?.definitions !== undefined
       }
       
-export function getAndCache(query: ApiRequest, get: Function) {
-  const queryString = JSON.stringify(query);
-   const cacheKey = `yt_${queryString.replace(/[^a-zA-Z0-9]/g, '_')}`;
-  const cached = localStorage.getItem(cacheKey);
-  const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
-  const now = Date.now();
+    export function getAndCache(query: ApiRequest, get: Function) {
+      const queryString = JSON.stringify(query);
+      const cacheKey = `yt_${queryString.replace(/[^a-zA-Z0-9]/g, '_')}`;
+      const cached = localStorage.getItem(cacheKey);
+      const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
+      const now = Date.now();
 
-  if (cached) {
-    try {
-      const { data, timestamp } = JSON.parse(cached);
-      if (now - timestamp < CACHE_DURATION) {
-        return data;
+      if (cached) {
+        try {
+          const { data, timestamp } = JSON.parse(cached);
+          if (now - timestamp < CACHE_DURATION) {
+            return data;
+          }
+        } catch (e) {
+          console.warn('Cache parse error', e);
+        }
       }
-    } catch (e) {
-      console.warn('Cache parse error', e);
-    }
-  }
 
-  const data =  get()
-  
-  localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
-  return data
-}
+      const data =  get()
+      
+      localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: now }));
+      return data
+    }

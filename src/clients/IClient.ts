@@ -1,4 +1,4 @@
-import { ApiRequest } from "../api/Request";
+import { ApiRequest } from "../utility/Types";
 export interface IClient{
 
     get(request: ApiRequest, options?: any): any

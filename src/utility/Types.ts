@@ -1,4 +1,7 @@
+import { Api } from "../api/Api";
+
 export { IRepository } from "../model/IRepository";
+
 export { ApiClient } from "../utility/apiClient";
 
 export type MediaType = {
@@ -56,9 +59,12 @@ export type ConfigType = {
 }
 
 export type ApiConfig = {
-    baseUrl: string,
-    baseConfig: Record<string, any>
-    requests?: Record<string, Request | Function>
+    endPoint: string,
+    params?: Record<string, any>
+    data?: Record<string, any>,
+    transform?: Function,
+    methodType: MethodType,
+    cacheKey?: string
 }
 
 export type CollectionType = {
@@ -116,17 +122,8 @@ type Attachment = {
   name: string
 }
 
-export type Resource = {
-    get: {
-      response: any[],
-      transform?: (item: any) => {},
-      cacheKey?: string
-    }
-    post: {
-      response: any[],
-      transform?: (item: any) => {},
-      cacheKey?: string
-    }
+export type ApiRequest = Omit<ApiConfig, 'endPoint'> & {
+  url: string,
 }
 
 export type emailReq = "single" | "single_template" | "batch_template"

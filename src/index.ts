@@ -10,10 +10,9 @@ export { SupabaseRepo } from './model/SupabaseRepo';
 export { Axiosi } from "./api/Axiosi";
 export * from './utility/Types'
 export { Response } from "./api/Response";
-export { Resource } from "./api/Resource";
-export { ApiRequest } from "./api/Request";
 export { isObject, isType, joinObject, getUrl } from "./utility/Utility";
 export { parseQuery } from "./utility/Query";
 export { GraphqlClient, fetchExchange, cacheExchange } from "./clients/GraphqlClient";
 export { RestClient } from "./clients/RestClient";
 export { SDKClient } from "./clients/SDKClient";
+export { Api } from "./api/Api";
