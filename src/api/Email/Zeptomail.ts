@@ -1,19 +1,13 @@
-import { emailReq } from '../../utility/Types';
-import { IMediaApi } from '../IMediaApi';
-import { Resource } from './../Resource';
-import { Axiosi } from './../Axiosi';
-import config from "../../utility/config.json";
-import { EmailAddress, EmailType } from "../../utility/Types";
-export class Zeptomail implements IMediaApi{
+//export class Zeptomail implements IMediaApi{
     /*constructor() {
         this.user = user,
         this.email = email
     }*/
     //user
     //email
-    resources: Resource[] = [];
+//    resources: Resource[] = [];
     //"client_id" "h2QN0xKvn2yEbGzLAzt__xrgVQI_AVu2Gwn3WdZn0gE"
-    getBaseUrl() {
+/*    getBaseUrl() {
         try{
             //const config = await this.client.load('../config.json')
             const apiBaseUrl = config.api.Zeptomail.baseUrl
@@ -22,8 +16,8 @@ export class Zeptomail implements IMediaApi{
         catch (err) {
             console.log(err)
         }
-    }
-    getBaseParams() {
+    }*/
+/*    getBaseParams() {
         const apiBaseParams = config.api.Zeptomail.config
         return apiBaseParams
     }
@@ -86,7 +80,7 @@ export class Zeptomail implements IMediaApi{
                         "mime_headers": { 
                             "X-Test": "test" 
                         }*/
-                    }
+/*                    }
                 })
             case "batch_template":
                 return new Resource(this, {
@@ -101,12 +95,12 @@ export class Zeptomail implements IMediaApi{
                             name: config.email.name 
                         }, 
                         to: user, 
-                        reply_to: this.admin, 
+                        reply_to: this.admin, */
                         /*"client_reference": "<client reference>", 
                         "mime_headers": { 
                             "X-Test": "test" 
                         }*/
-                    }
+ /*                   }
                 })
         
             default:
@@ -117,11 +111,11 @@ export class Zeptomail implements IMediaApi{
                     params: {}
                 });
         }
-    }
+    }*/
 
     //token = config.api.Zeptomail.token;
     //url =   config.api.Zeptomail.url
-    client = new Axiosi(); 
+    //client = new Axiosi(); 
 
     /*sendMail(user: EmailAddress[], email: EmailType) {
         this.client.cle().then((resp: any) => console.log("success")).catch((error: any) => console.log("error"));
@@ -168,4 +162,4 @@ export class Zeptomail implements IMediaApi{
             }
         }).then((resp: any) => console.log("success")).catch((error: any) => console.log("error")); 
     }*/
-}
+//}

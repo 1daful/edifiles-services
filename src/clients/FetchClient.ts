@@ -1,5 +1,5 @@
 import { IClient } from "./IClient"
-import { ApiRequest } from "../api/Request";
+import { ApiRequest } from "../utility/Types";
 
 export class FetchClient implements IClient{
     constructor(url: string) {
@@ -9,7 +9,7 @@ export class FetchClient implements IClient{
     baseUrl: string
 
     async get(request: ApiRequest) {
-        const result = await fetch(`${this.baseUrl}/${request.url}`, request.config)
+        const result = await fetch(`${this.baseUrl}/${request.url}`, request.params)
         const data = await result.json()
         let error
 

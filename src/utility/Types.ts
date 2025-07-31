@@ -58,15 +58,6 @@ export type ConfigType = {
   baseParam: any
 }
 
-export type ApiConfig = {
-    endPoint: string,
-    params?: Record<string, any>
-    data?: Record<string, any>,
-    transform?: Function,
-    methodType: MethodType,
-    cacheKey?: string
-}
-
 export type CollectionType = {
   userId: string
   type: MediaRes
@@ -122,8 +113,35 @@ type Attachment = {
   name: string
 }
 
-export type ApiRequest = Omit<ApiConfig, 'endPoint'> & {
+export type ApiConfig = {
+    endPoint: string,
+    params?: Record<string, any>
+}
+
+export type RequestConfig = {
+  endPoint: string,
+  params?: Record<string, any>,
+  data?: Record<string, any>,
+  transform?: Function,
+  method: MethodType,
+  cacheKey?: string
+}
+
+export type ApiRequest = Omit<RequestConfig, 'endPoint'> & {
   url: string,
+}
+
+export type RequestQuery = {
+  url: string,
+  params?: {
+    columns?: any[],
+    filters?: QueryFilter[],
+    modifiers?: QueryModifier[],
+  },
+  data?: Record<string, any>,
+  transform?: Function,
+  method: MethodType,
+  cacheKey?: string
 }
 
 export type emailReq = "single" | "single_template" | "batch_template"

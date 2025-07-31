@@ -3,8 +3,8 @@ import { AxiosClient } from "./AxiosClient";
 import { ApiConfig } from "../utility/Types";
 
 export class RestClient extends Client{
-    constructor(apiConfig: ApiConfig) {
+    constructor() {
         //super(new FetchClient(url))
-        super(new AxiosClient(apiConfig))
+        super(new AxiosClient())
     }
 }

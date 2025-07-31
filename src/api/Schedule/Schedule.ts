@@ -1,4 +1,4 @@
-import { IClient } from "../../clients/IClient";
+/*import { IClient } from "../../clients/IClient";
 import { RestClient } from "../../clients/RestClient";
 import { Resource } from "../Resource";
 
@@ -27,4 +27,4 @@ export class Scheduler implements IClient{
     }
     client: IClient
     //url: string
-}
+}*/

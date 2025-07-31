@@ -55,11 +55,11 @@ export class Client{
         let response
         let data: any[]
         if(request.cacheKey) {
-            response =  await getAndCache(request, () => this.client.get(request))
+            response =  await getAndCache(request, () => this.client.post(request))
         }
         
         else {
-            response =  await this.client.get(request)
+            response =  await this.client.post(request)
         }
         
         data = response.data;

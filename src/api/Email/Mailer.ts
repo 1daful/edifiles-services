@@ -1,4 +1,4 @@
-import { ListMonk } from './Listmonk';
+/*import { ListMonk } from './Listmonk';
 import { EmailType } from '../../utility/Types';
 import { EmailAddress } from '../../utility/Types';
 import { Zeptomail } from './Zeptomail';
@@ -12,7 +12,7 @@ export class Mailer {
     messenger = new ListMonk()
     
 sendEmail(email: EmailType) {
-        this.client.post(this.messenger.transact(email))
+        this.client.post(this.messenger.transact(email))*/
         /*let msg = {
             sender: this.sender,
             to: [user.address],
@@ -20,11 +20,11 @@ sendEmail(email: EmailType) {
             host: this.host
         }*/
         //this.client.postTo(config.backURL + "/mailer", msg)
-    }
-    sendTemplateEmail(user: EmailAddress[], email: EmailType) {
+    //}
+    /*sendTemplateEmail(user: EmailAddress[], email: EmailType) {
         this.client.post(new Zeptomail().getResource("single_template", user, email))
     }
     sendTemplateBatch(user: EmailAddress[], email: EmailType) {
         this.client.post(new Zeptomail().getResource("batch_template", user, email))
     }
-}
+}*/

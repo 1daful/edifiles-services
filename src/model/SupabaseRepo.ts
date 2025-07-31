@@ -6,7 +6,7 @@ import { DocumentNode } from "graphql";
 import { QueryType } from "../utility/Types";
 import { isDocumentNode } from "../utility/Utility";
 
-export class SupabaseRepo implements IRepository, IClient {
+export class SupabaseRepo implements IRepository {
     constructor(config: any) {
         this.supabase = createClient(config.url, config.key, this.options);
     }
@@ -160,9 +160,6 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
         return await query()
     }
 
-    read() {
-
-    }
     async readQuery(name: string, options?: any) {
         return await this.supabase.rpc(name, {
         table_name: options.tableName,
@@ -261,7 +258,7 @@ async readItemsWithDocumentNode(query: DocumentNode | string) {
         return await query;
     }*/
     
-    async get(query: QueryType | QueryType[] | DocumentNode | string) {
+    async get(query: QueryType | DocumentNode | string) {
         if (typeof query === "string") {
             return this.supabase.from(query).select()
         }

@@ -1,13 +1,13 @@
 import { ApiClient } from "../utility/apiClient";
 //import { ApiFormat } from "../apiReqFormat/ApiFormat";
-import { Resource } from "./Resource.js";
+
 
 /**
  * The interface for all media classes
  */
 export interface IMediaApi {
     //client: ApiClient;
-    resources: Resource[];
+   // resources: Resource[];
 
     //apiFormat: ApiFormat;
     //getResource(format: ApiFormat): Resource

@@ -5,7 +5,7 @@ import { ApiConfig, FileOptions, TransformOptions } from '../../utility/Types';
 
 export class SupabaseStore implements IEdiStorage {
   constructor(config: ApiConfig) {
-    this.supabase = createClient(config.baseUrl, config.baseConfig.key)
+    this.supabase = createClient(config.endPoint, config.params?.key)
   }
 
   supabase

@@ -16,7 +16,7 @@ export class Callback {
     constructor(backEndApi: ApiConfig) {
         this.backEndApi = backEndApi;
         //this.reqConfig = reqConfig;
-        this.client = new RestClient(backEndApi);
+        this.client = new RestClient();
     }
 
     /**
@@ -46,7 +46,7 @@ export class Callback {
         const req: ApiRequest = {
             url: backEndURL,
             params: requests,
-            methodType: 'post',
+            method: 'post',
         }
         return this.client.post(req)
     }

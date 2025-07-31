@@ -1,9 +1,12 @@
 import { IClient } from "../../clients/IClient";
+import { ApiConfig } from "../../utility/Types";
 import { SupabaseStore } from "./SupabaseStore";
 
 export class EdiStorage implements IClient {
-  storage = new SupabaseStore()
-  
+  constructor(config: ApiConfig){
+    this.storage = new SupabaseStore(config)
+  }
+  storage
   async create(path: string): Promise<any> {
     return await this.storage.create(path);
   }
