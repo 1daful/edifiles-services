@@ -58,4 +58,8 @@ export class SupabaseDb implements IClient {
         throw new Error("Method not implemented.");
     }
 
+    rpc(name: string, params?: any) {
+        return this.supabase.rpc(name, params);
+    }
+
 }

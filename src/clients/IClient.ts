@@ -6,5 +6,5 @@ export interface IClient{
     post(request: ApiRequest, options?: any): any
 
     postWithTransaction?(request: ApiRequest, options?: any): any
-
+    rpc?(name: string, params?: any): any
 }

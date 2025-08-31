@@ -18,14 +18,12 @@ export class SupabaseStore implements IEdiStorage {
 
 
   async createBucket(bucketName: string) {
-  // Step 1: List all buckets
   const { data: buckets, error: listError } = await this.supabase.storage.listBuckets();
   if (listError) {
     console.error("Failed to list buckets:", listError);
     return;
   }
 
-  // Step 2: Check if the bucket already exists
   const exists = buckets?.some(bucket => bucket.name === bucketName);
 
   if (exists) {
@@ -33,7 +31,6 @@ export class SupabaseStore implements IEdiStorage {
     return;
   }
 
-  // Step 3: Create the bucket if it does not exist
   const { data: createdBucket, error: createError } = await this.supabase.storage.createBucket(bucketName);
   if (createError) {
     console.error("Error creating bucket:", createError);
@@ -43,7 +40,7 @@ export class SupabaseStore implements IEdiStorage {
   console.log(`Bucket "${bucketName}" created successfully:`, createdBucket);
 }
 
-  async upload(bucket: string, path: string, file: File, options: FileOptions): Promise<any> {
+  async upload(bucket: string, path: string, file: File, options?: FileOptions): Promise<any> {
   	const { data, error } = await this.supabase.storage
     .from(bucket)
     .upload(path, file, options)
@@ -66,7 +63,7 @@ export class SupabaseStore implements IEdiStorage {
     return file
   }
   
-  async addFiles(files: File[], bucket: string = 'avatars'): Promise<string | undefined> {
+  async uploadFile(files: File[], bucket: string = 'avatars'): Promise<string | undefined> {
     const file = files[0];
     if (!file) return;
 
@@ -85,7 +82,7 @@ export class SupabaseStore implements IEdiStorage {
     return this.getUrl(bucket, fileName);
   }
 
-  async downloadAndSaveFile(fileName: string, bucket: string = 'avatars'): Promise<void> {
+  async downloadFile(fileName: string, bucket: string = 'avatars'): Promise<void> {
     const { data, error } = await this.download(bucket, fileName);
     if (error) {
       console.error("Error downloading file:", error);

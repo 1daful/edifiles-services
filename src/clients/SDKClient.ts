@@ -4,6 +4,15 @@ import { IClient } from "./IClient";
 export class SDKClient extends Client {
     constructor(client: IClient) {
         super(client)
+        this.client = client;
+    }
+    client: IClient;
+    rpc(name: string, params?: any) {
+        if (this.client.rpc)
+        return this.client.rpc(name, params);
+    else {
+            throw new Error("RPC method not implemented in the client");
+        }
     }
     /*constructor(Type: new (connectionDetails: any) => IClient, connectionDetails: any) {
         super(new Type(connectionDetails))

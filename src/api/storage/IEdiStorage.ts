@@ -4,4 +4,6 @@ export interface IEdiStorage {
   download(collName: string, path: string, file: any, options: any): Promise<any>
   getUrl(bucket: string, name: string): Promise<any>
   getFile(url: string): Promise<any>
+  uploadFile(files: File[], bucket: string): Promise<string | undefined>
+  downloadFile(fileName: string, bucket: string): Promise<void>
 }

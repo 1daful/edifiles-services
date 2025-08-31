@@ -1,5 +1,5 @@
 import { IClient } from "../../clients/IClient";
-import { ApiConfig } from "../../utility/Types";
+import { ApiConfig, ApiRequest } from "../../utility/Types";
 import { SupabaseStore } from "./SupabaseStore";
 
 export class EdiStorage implements IClient {
@@ -7,21 +7,23 @@ export class EdiStorage implements IClient {
     this.storage = new SupabaseStore(config)
   }
   storage
-  async create(path: string): Promise<any> {
-    return await this.storage.create(path);
-  }
-  async getUrl(bucket: string, name: string): Promise<any> {
-    return await this.storage.getUrl(bucket, name);
-  }
-  async getFile(url: string): Promise<any> {
-    return await this.storage.getFile(url);
-  }
   
-  async post(collName: string, path: string, file: any): Promise<any> {
-    return await this.storage.upload(collName, path, file)
+  async post(request: RequestType, options?: any): Promise<any> {
+    // Ensure request.data is an array of Files
+    if (!Array.isArray(request.data) || !request.data.every(file => file instanceof File)) {
+      throw new Error("request.data must be an array of Files");
+    }
+    return await this.storage.uploadFile(request.data, request.url);
   }
 
-  async get(collName: string, path: string): Promise<any> {
-    return await this.storage.download(collName, path)
+  async get(request: RequestType): Promise<any> {
+    return await this.storage.downloadFile(request.params.path, request.url);
+  }
+}
+
+
+type RequestType = ApiRequest & {
+  params: {
+    path: string;
   }
 }

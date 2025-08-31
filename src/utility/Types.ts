@@ -277,3 +277,12 @@ export type QueryModifier = {
 }
 
 export { FileOptions, TransformOptions } from '@supabase/storage-js';
+
+export type Transactions = [
+  {
+    action: 'insert' | 'update',
+    table: string,
+    values: [],
+    where: { field: string, operator: string, value: string | number }[],
+  }
+]
